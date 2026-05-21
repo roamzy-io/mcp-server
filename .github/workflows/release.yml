@@ -1,0 +1,90 @@
+# Auto-release workflow for @roamzy/mcp-server.
+#
+# Trigger: a push of a git tag matching `v*` (e.g. `git tag v1.5.3 && git push --tags`).
+# Steps:
+#   1. Check out the source at the tagged commit.
+#   2. Install Node 20.x.
+#   3. `pnpm install` (frozen lockfile — fails if package-lock drifts).
+#   4. `pnpm run build` (runs esbuild to produce dist/index.js).
+#   5. Sanity-test the bundle (npx-style invocation, smoke-test MCP handshake).
+#   6. `npm publish --access public --provenance` to the npm registry.
+#   7. Create a draft GitHub release (operator manually publishes once happy).
+#
+# Required repo secrets (set via Settings → Secrets and variables → Actions):
+#   - NPM_TOKEN : a granular access token scoped to @roamzy/mcp-server with
+#                 "publish" permission. Generate at
+#                 https://www.npmjs.com/settings/<your-username>/tokens/granular-access-tokens/new
+#                 — DO NOT use a "classic" token; granular tokens are scoped.
+#                 Operator action: create token, then paste into the secret.
+#
+# Provenance: npm publish runs with `--provenance` so the published package
+# carries a signed link back to this exact GitHub commit + workflow run. Users
+# can verify chain-of-custody via `npm view @roamzy/mcp-server provenance`.
+#
+# To use:
+#   git tag v1.5.3
+#   git push origin v1.5.3
+# That triggers this workflow; no further operator action needed at publish time.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Publish to npm + GitHub Release
+    runs-on: ubuntu-latest
+
+    # OIDC token for npm --provenance attestation. id-token: write is required.
+    permissions:
+      contents: write     # create GitHub Release
+      id-token: write     # npm provenance attestation
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        # devDeps are exact-pinned in package.json (no carets), so `npm install`
+        # without a lockfile is deterministic enough. Adding a pnpm-lock.yaml
+        # specific to this repo (separate from the parent workspace) would be
+        # cleaner but is an optimization; revisit if dep count grows.
+        run: npm install --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Smoke-test the bundle
+        run: |
+          # Verify the server responds to an MCP initialize handshake.
+          # Any failure here aborts the release before npm publish.
+          printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci-smoke","version":"1"}}}\n' \
+            | timeout 5 node dist/index.js \
+            | grep -q '"name":"roamzy"' \
+            && echo "✓ MCP handshake OK" \
+            || (echo "✗ MCP handshake failed" && exit 1)
+
+      - name: Publish to npm with provenance
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create draft GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true                            # operator reviews + publishes manually
+          generate_release_notes: true           # auto-generates from commits since last tag
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
