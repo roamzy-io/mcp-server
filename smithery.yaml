@@ -1,0 +1,38 @@
+# Smithery configuration file: https://smithery.ai/docs/config
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema for the optional user-supplied configuration.
+    # Both fields are optional — anonymous-flow is the default.
+    type: object
+    properties:
+      roamzyApiToken:
+        type: string
+        title: "ROAMZY_API_TOKEN (optional)"
+        description: >
+          Bearer token from /dashboard/settings if you want to use a
+          pre-existing Roamzy account. Leave empty for anonymous mode
+          (the MCP server creates a fresh anonymous account on first use,
+          no signup required).
+      enablePurchase:
+        type: boolean
+        title: "ROAMZY_ENABLE_PURCHASE"
+        description: >
+          When using a non-anonymous token, set true to expose purchase
+          tools. Anonymous mode has purchase tools enabled by default
+          (the whole point of the flow is buying eSIMs).
+        default: false
+    description: >
+      Configuration for @roamzy/mcp-server. Both fields are optional —
+      anonymous-flow works out of the box and is the recommended path.
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@roamzy/mcp-server'],
+      env: {
+        ...(config.roamzyApiToken ? { ROAMZY_API_TOKEN: config.roamzyApiToken } : {}),
+        ...(config.enablePurchase ? { ROAMZY_ENABLE_PURCHASE: 'true' } : {})
+      }
+    })
+  exampleConfig: {}
