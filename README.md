@@ -8,9 +8,13 @@ flow by default: no account required to use it.
 > One eSIM for 192 countries. Pay per actual MB used. USDT or USDC on your
 > preferred network. No packages. No expiry. No subscription.
 
+[![npm version](https://img.shields.io/npm/v/@roamzy/mcp-server?color=cb3837&logo=npm&logoColor=white)](https://www.npmjs.com/package/@roamzy/mcp-server)
+[![npm downloads](https://img.shields.io/npm/dm/@roamzy/mcp-server?color=cb3837&logo=npm&logoColor=white&label=downloads)](https://www.npmjs.com/package/@roamzy/mcp-server)
+[![GitHub stars](https://img.shields.io/github/stars/roamzy-io/mcp-server?style=flat&logo=github&color=181717)](https://github.com/roamzy-io/mcp-server/stargazers)
 [![MCP](https://img.shields.io/badge/MCP-compatible-blue)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org)
+[![Glama score](https://glama.ai/mcp/servers/roamzy-io/mcp-server/badges/score.svg)](https://glama.ai/mcp/servers/roamzy-io/mcp-server)
 
 ---
 
