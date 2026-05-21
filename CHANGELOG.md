@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.2] — 2026-05-21
 
+### Added
+
+- **Now published on the npm registry as
+  [`@roamzy/mcp-server`](https://www.npmjs.com/package/@roamzy/mcp-server).**
+  Recommended install path is now `npx -y @roamzy/mcp-server`. The hosted
+  tarball at `https://roamzy.io/mcp/roamzy-mcp-latest.tgz` remains available
+  as an alternative.
+- Source code published as the public GitHub repository
+  [roamzy-io/mcp-server](https://github.com/roamzy-io/mcp-server) under
+  the MIT License.
+
 ### Changed
 
 - Publish-prep cleanup: tightened metadata (`license: MIT`, proper

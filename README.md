@@ -54,7 +54,7 @@ Support/Claude/claude_desktop_config.json` for Claude Desktop on macOS):
   "mcpServers": {
     "roamzy": {
       "command": "npx",
-      "args": ["-y", "https://roamzy.io/mcp/roamzy-mcp-latest.tgz"]
+      "args": ["-y", "@roamzy/mcp-server"]
     }
   }
 }
@@ -62,6 +62,19 @@ Support/Claude/claude_desktop_config.json` for Claude Desktop on macOS):
 
 Restart your MCP client. The first authed tool call will mint an anonymous
 Roamzy account automatically — no signup required.
+
+### Alternative: install from a hosted tarball
+
+If you can't reach the npm registry, want to pin a pre-release, or prefer to
+fetch a specific version directly from Roamzy's CDN, swap the args to a URL:
+
+```json
+"args": ["-y", "https://roamzy.io/mcp/roamzy-mcp-latest.tgz"]
+```
+
+Both forms run the same code — the npm registry path is the recommended
+default because it integrates with `npm view`, version pinning, and MCP
+registries (Smithery, modelcontextprotocol/servers, etc.).
 
 ### Optional environment variables
 
