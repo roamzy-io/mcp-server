@@ -20,7 +20,7 @@
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
     "esbuild": "0.24.2",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "keywords": ["mcp", "claude", "esim", "roamzy", "agent", "anthropic", "cursor", "continue", "usdt", "crypto"],
   "license": "MIT",
