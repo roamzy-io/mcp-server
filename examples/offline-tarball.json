@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "https://roamzy.io/mcp/roamzy-mcp-latest.tgz"]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"],
+      "env": {
+        "ROAMZY_API_TOKEN": "rk_live_REPLACE_WITH_YOUR_TOKEN",
+        "ROAMZY_ENABLE_PURCHASE": "false"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "_comment": "Continue IDE — merge into ~/.continue/config.json under `mcpServers`. The rest of your Continue config (models, providers) stays unchanged.",
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}

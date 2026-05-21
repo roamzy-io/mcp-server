@@ -1,0 +1,9 @@
+{
+  "_comment": "Drop this whole object into ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) — or merge the `roamzy` entry into your existing `mcpServers` block. Restart Claude Desktop after editing. Anonymous-flow by default: no Roamzy account or token needed.",
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}

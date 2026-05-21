@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}

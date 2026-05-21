@@ -1,0 +1,12 @@
+{
+  "_comment": "Zed editor — ~/.config/zed/settings.json under `context_servers` (Zed's naming convention; same MCP protocol).",
+  "context_servers": {
+    "roamzy": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "@roamzy/mcp-server"]
+      },
+      "settings": {}
+    }
+  }
+}

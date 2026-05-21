@@ -1,0 +1,9 @@
+{
+  "_comment": "Cursor → Settings → Features → Model Context Protocol → edit `mcp.json` (global) or `.cursor/mcp.json` (workspace). Anonymous-flow by default.",
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}

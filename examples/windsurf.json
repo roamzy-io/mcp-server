@@ -1,0 +1,9 @@
+{
+  "_comment": "Windsurf (Codeium) — Settings → Cascade → MCP Servers. Add Roamzy with the `roamzy` entry below.",
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}

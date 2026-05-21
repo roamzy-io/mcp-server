@@ -1,0 +1,9 @@
+{
+  "_comment": "Cline (VS Code) — open Cline settings → MCP Servers → switch to JSON view → merge the `roamzy` entry into the `mcpServers` block.",
+  "mcpServers": {
+    "roamzy": {
+      "command": "npx",
+      "args": ["-y", "@roamzy/mcp-server"]
+    }
+  }
+}
