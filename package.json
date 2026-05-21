@@ -1,0 +1,36 @@
+{
+  "name": "@roamzy/mcp-server",
+  "version": "1.5.2",
+  "description": "MCP server for Roamzy — buy and manage global eSIM through Claude, Cursor, Continue, and any MCP client.",
+  "type": "module",
+  "bin": {
+    "roamzy-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": ["dist/index.js", "README.md", "LICENSE", "CHANGELOG.md", "SECURITY.md"],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --banner:js=\"#!/usr/bin/env node\" && chmod +x dist/index.js",
+    "pack:tgz": "npm pack --pack-destination=dist/",
+    "build:tgz": "pnpm run build && pnpm run pack:tgz",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "esbuild": "0.24.2",
+    "typescript": "5.9.3"
+  },
+  "keywords": ["mcp", "claude", "esim", "roamzy", "agent", "anthropic", "cursor", "continue", "usdt", "crypto"],
+  "license": "MIT",
+  "author": "Artur",
+  "homepage": "https://roamzy.io",
+  "bugs": {
+    "url": "https://github.com/roamzy-io/mcp-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roamzy-io/mcp-server.git"
+  }
+}

@@ -1,0 +1,40 @@
+# Build outputs (committed: only dist/index.js, see package.json `files`)
+dist/*.tgz
+dist/*.map
+dist/.cache
+
+# Node
+node_modules/
+.pnpm-store/
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Env / secrets (defensive — none should exist here, but block accidents)
+.env
+.env.*
+!.env.example
+*.local.*
+*.pem
+*.key
+
+# Logs / dumps
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Customer / operational data (never accept here)
+*.sqlite
+*.sqlite-journal
+*.db
+data/
+dump.rdb
+
+# OS / misc
+Thumbs.db
