@@ -5,14 +5,29 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.5.3] — 2026-05-22
 
-> Polish / infra-only changes since v1.5.2. The runtime bundle is
-> functionally unchanged — these will roll up into v1.5.3 when the next
-> functional change ships.
+> Discoverability + polish release. No functional change to tool
+> behaviour — adds the `mcpName` field for Official MCP Registry
+> submission + rolls up all the post-1.5.2 infrastructure work.
 
 ### Added
 
+- **`mcpName` field** in `package.json` (`io.github.roamzy-io/mcp-server`)
+  — required for verification in the [Official MCP Registry](https://registry.modelcontextprotocol.io)
+  (mirrored downstream to PulseMCP and other catalogs).
+- **`server.json`** manifest for Official MCP Registry submission.
+- **`.github/workflows/codeql.yml`** — continuous SAST with the
+  `security-extended` query set (push, PR, weekly).
+- **`.github/workflows/token-rotation-reminder.yml`** — auto-creates
+  an urgent rotation issue 7 days before `NPM_TOKEN` expires.
+- **CI release workflow hardening:** `tsc --noEmit` typecheck before
+  build, expanded smoke-test verifies `tools/list` returns ≥ 11 tools,
+  and publish is gated on `npm audit --audit-level=high --omit=dev`
+  (so releases with HIGH/CRITICAL runtime CVEs are blocked).
+- **Branch protection on `main`:** requires CodeQL pass + linear
+  history + blocks force-push and branch deletion (admin override
+  available — solo-friendly).
 - **`examples/` directory** with drop-in config snippets for 6 MCP
   clients (Claude Desktop, Cursor, Continue, Cline, Windsurf, Zed) plus
   three flow-mode files (anonymous, token-mode, offline-tarball).

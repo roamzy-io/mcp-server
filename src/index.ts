@@ -336,7 +336,7 @@ async function dispatchTool(name: string, args: ToolArgs): Promise<unknown> {
 // ─── Server boot ────────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: 'roamzy', version: '1.5.2' },
+  { name: 'roamzy', version: '1.5.3' },
   { capabilities: { tools: {} } },
 );
 

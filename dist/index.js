@@ -14092,7 +14092,7 @@ async function dispatchTool(name, args) {
   }
 }
 var server = new Server(
-  { name: "roamzy", version: "1.5.2" },
+  { name: "roamzy", version: "1.5.3" },
   { capabilities: { tools: {} } }
 );
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: activeTools() }));
