@@ -5,6 +5,61 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+> Polish / infra-only changes since v1.5.2. The runtime bundle is
+> functionally unchanged — these will roll up into v1.5.3 when the next
+> functional change ships.
+
+### Added
+
+- **`examples/` directory** with drop-in config snippets for 6 MCP
+  clients (Claude Desktop, Cursor, Continue, Cline, Windsurf, Zed) plus
+  three flow-mode files (anonymous, token-mode, offline-tarball).
+- **`USAGE_EXAMPLES.md`** with 5 real production conversation
+  transcripts: anonymous purchase, cost lookup, balance check, recovery
+  from lost-chat, token-mode read-only.
+- **`Dockerfile`** for marketplace validators (Glama, etc.) —
+  self-contained `node:20` image, no install step.
+- **`smithery.yaml`** manifest for Smithery.ai listing (stdio transport,
+  optional config schema).
+- **`CONTRIBUTING.md`**, **`CODE_OF_CONDUCT.md`** (Contributor Covenant
+  2.1), `.github/ISSUE_TEMPLATE/{bug_report,feature_request}.md`,
+  `.github/PULL_REQUEST_TEMPLATE.md`.
+- **`.github/workflows/release.yml`** — auto-publish to npm with
+  `--provenance` on `git push --tags v*`. Includes strict `npm ci`
+  install, `tsc --noEmit` typecheck, MCP handshake + `tools/list` smoke
+  test, and `npm audit --audit-level=high` block on critical
+  vulnerabilities before publish.
+- **`.github/workflows/codeql.yml`** — GitHub CodeQL static analysis on
+  every push, PR, and weekly schedule. `security-extended` query set.
+- **`.github/dependabot.yml`** — weekly npm + monthly GitHub Actions
+  updates, with minor/patch grouped to reduce PR noise.
+- **`@types/node@^22`** dev dependency + `"types": ["node"]` in
+  `tsconfig.json` — fixes `tsc --noEmit` errors that TypeScript 6.0
+  introduced by no longer auto-including `@types/*` packages.
+- **`package-lock.json`** committed — guarantees reproducible builds
+  across local, CI, Glama validator, etc.
+- **README badges** for npm version, npm downloads, GitHub stars, MCP
+  compatibility, MIT license, Node 20+, and the Glama score.
+
+### Changed
+
+- **CI workflow** install command switched from `npm install` to
+  `npm ci` for strict, reproducible installs from the lockfile.
+- **devDependencies bumped:**
+  - `esbuild` 0.24.2 → 0.28.0
+  - `typescript` 5.9.3 → 6.0.3
+  - `actions/setup-node` 4 → 6 (Node 24 runtime, GitHub Actions)
+  - `actions/checkout` 4 → 6
+  - `softprops/action-gh-release` 2 → 3
+
+### Security
+
+- Static analysis (CodeQL) now runs continuously — results in the
+  repo's Security tab.
+- Vulnerability scanning gated at release time via `npm audit`.
+
 ## [1.5.2] — 2026-05-21
 
 ### Added

@@ -1,0 +1,63 @@
+# CodeQL — GitHub's free static analysis for public repos.
+#
+# Scans the TypeScript source for common security issues: SQL injection
+# (n/a for us — no DB), XSS (n/a — no DOM), prototype pollution, unsafe
+# deserialisation, insecure crypto, log injection, hardcoded secrets,
+# regex DoS, etc.
+#
+# Runs on:
+#   - every push to main (catch issues at merge time)
+#   - every PR against main (block bad PRs from merging)
+#   - weekly schedule (catch newly-published advisories that match
+#     existing code patterns)
+#
+# Results land in the Security tab of the repo. Free for public repos;
+# no setup beyond this file.
+
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly Monday 03:00 UTC — outside peak GitHub Actions hours.
+    - cron: '0 3 * * 1'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write   # to upload SARIF results to the Security tab
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript-typescript']
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # security-extended ramps up the query set vs default — slower,
+          # catches more. Worth it for a thin codebase like ours.
+          queries: security-extended
+
+      - name: Autobuild
+        # For JS/TS, autobuild is a no-op (no compile step needed for
+        # CodeQL to analyze). Included for completeness; safe to leave.
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:${{ matrix.language }}'

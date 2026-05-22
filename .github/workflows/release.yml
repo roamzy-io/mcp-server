@@ -54,25 +54,46 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
 
-      - name: Install dependencies
-        # devDeps are exact-pinned in package.json (no carets), so `npm install`
-        # without a lockfile is deterministic enough. Adding a pnpm-lock.yaml
-        # specific to this repo (separate from the parent workspace) would be
-        # cleaner but is an optimization; revisit if dep count grows.
-        run: npm install --no-audit --no-fund
+      - name: Install dependencies (strict, from lockfile)
+        # `npm ci` is the strict, reproducible variant of `npm install`. It:
+        #   - refuses to start if package.json and package-lock.json diverge
+        #   - wipes node_modules before install (no stale state)
+        #   - never updates the lockfile during install
+        # This guarantees CI builds use the exact dep tree captured in
+        # package-lock.json — no transitive drift between runs.
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        # `tsc --noEmit` validates against tsconfig.json (strict mode, with
+        # types:["node"] for the process globals). esbuild itself doesn't
+        # typecheck, so this is the only place we catch TS errors before
+        # publish.
+        run: npx tsc --noEmit
 
       - name: Build
         run: npm run build
 
       - name: Smoke-test the bundle
         run: |
-          # Verify the server responds to an MCP initialize handshake.
-          # Any failure here aborts the release before npm publish.
-          printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci-smoke","version":"1"}}}\n' \
-            | timeout 5 node dist/index.js \
-            | grep -q '"name":"roamzy"' \
-            && echo "✓ MCP handshake OK" \
-            || (echo "✗ MCP handshake failed" && exit 1)
+          # Verify the server responds to an MCP initialize handshake AND
+          # reports the full tool list. Any failure aborts the release before
+          # npm publish.
+          set -euo pipefail
+          OUTPUT=$(printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci-smoke","version":"1"}}}\n{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}\n' \
+            | timeout 5 node dist/index.js)
+          echo "$OUTPUT" | grep -q '"name":"roamzy"' && echo "✓ MCP handshake OK"
+          TOOL_COUNT=$(echo "$OUTPUT" | python3 -c "import sys,json; ls=[json.loads(l) for l in sys.stdin if l.strip()]; tl=[d for d in ls if d.get('id')==2][0]; print(len(tl['result']['tools']))")
+          if [ "$TOOL_COUNT" -lt 11 ]; then
+            echo "✗ Expected at least 11 tools, got $TOOL_COUNT"
+            exit 1
+          fi
+          echo "✓ tools/list returned $TOOL_COUNT tools"
+
+      - name: Security audit (block on high+ severity)
+        # `npm audit` against the lockfile. Blocks publish only on HIGH or
+        # CRITICAL vulnerabilities. Moderate / low go through (we'll see
+        # them in Dependabot PRs without blocking releases).
+        run: npm audit --audit-level=high --omit=dev
 
       - name: Publish to npm with provenance
         run: npm publish --access public --provenance
