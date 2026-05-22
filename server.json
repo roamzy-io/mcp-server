@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.roamzy-io/mcp-server",
+  "description": "Buy a global eSIM through chat. 192 countries, per-MB USDT/USDC billing, no signup needed.",
+  "repository": {
+    "url": "https://github.com/roamzy-io/mcp-server",
+    "source": "github"
+  },
+  "version": "1.5.3",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@roamzy/mcp-server",
+      "version": "1.5.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ROAMZY_API_TOKEN",
+          "description": "Optional. Bearer token from /dashboard/settings if you want to bind agent activity to a pre-existing Roamzy account. Leave unset for anonymous-flow (default).",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "ROAMZY_ENABLE_PURCHASE",
+          "description": "Optional. Set to \"true\" when using a non-anonymous token to also expose purchase tools (roamzy_create_order). Anonymous-mode has purchase tools enabled by default.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "default": "false"
+        },
+        {
+          "name": "ROAMZY_API_BASE",
+          "description": "Optional. Override the API base URL for staging or self-hosted deployments. Defaults to https://roamzy.io/api/v1.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "default": "https://roamzy.io/api/v1"
+        }
+      ]
+    }
+  ]
+}
