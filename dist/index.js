@@ -6885,6 +6885,9 @@ var require_dist = __commonJS({
   }
 });
 
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+import process3 from "node:process";
+
 // node_modules/zod/v4/core/core.js
 var _a;
 // @__NO_SIDE_EFFECTS__
@@ -11153,69 +11156,6 @@ var optionalProcessor = (schema, ctx, _json, params) => {
   seen.ref = def.innerType;
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
-function isZ4Schema(s) {
-  const schema = s;
-  return !!schema._zod;
-}
-function safeParse2(schema, data) {
-  if (isZ4Schema(schema)) {
-    const result2 = safeParse(schema, data);
-    return result2;
-  }
-  const v3Schema = schema;
-  const result = v3Schema.safeParse(data);
-  return result;
-}
-function getObjectShape(schema) {
-  if (!schema)
-    return void 0;
-  let rawShape;
-  if (isZ4Schema(schema)) {
-    const v4Schema = schema;
-    rawShape = v4Schema._zod?.def?.shape;
-  } else {
-    const v3Schema = schema;
-    rawShape = v3Schema.shape;
-  }
-  if (!rawShape)
-    return void 0;
-  if (typeof rawShape === "function") {
-    try {
-      return rawShape();
-    } catch {
-      return void 0;
-    }
-  }
-  return rawShape;
-}
-function getLiteralValue(schema) {
-  if (isZ4Schema(schema)) {
-    const v4Schema = schema;
-    const def2 = v4Schema._zod?.def;
-    if (def2) {
-      if (def2.value !== void 0)
-        return def2.value;
-      if (Array.isArray(def2.values) && def2.values.length > 0) {
-        return def2.values[0];
-      }
-    }
-  }
-  const v3Schema = schema;
-  const def = v3Schema._def;
-  if (def) {
-    if (def.value !== void 0)
-      return def.value;
-    if (Array.isArray(def.values) && def.values.length > 0) {
-      return def.values[0];
-    }
-  }
-  const directValue = schema.value;
-  if (directValue !== void 0)
-    return directValue;
-  return void 0;
-}
-
 // node_modules/zod/v4/classic/iso.js
 var iso_exports = {};
 __export(iso_exports, {
@@ -11299,16 +11239,16 @@ var ZodRealError = /* @__PURE__ */ $constructor("ZodError", initializer2, {
 // node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
-var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
+var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync2 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
-var encode2 = /* @__PURE__ */ _encode(ZodRealError);
-var decode2 = /* @__PURE__ */ _decode(ZodRealError);
-var encodeAsync2 = /* @__PURE__ */ _encodeAsync(ZodRealError);
-var decodeAsync2 = /* @__PURE__ */ _decodeAsync(ZodRealError);
-var safeEncode2 = /* @__PURE__ */ _safeEncode(ZodRealError);
-var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
-var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
-var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
+var encode = /* @__PURE__ */ _encode(ZodRealError);
+var decode = /* @__PURE__ */ _decode(ZodRealError);
+var encodeAsync = /* @__PURE__ */ _encodeAsync(ZodRealError);
+var decodeAsync = /* @__PURE__ */ _decodeAsync(ZodRealError);
+var safeEncode = /* @__PURE__ */ _safeEncode(ZodRealError);
+var safeDecode = /* @__PURE__ */ _safeDecode(ZodRealError);
+var safeEncodeAsync = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
+var safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
 // node_modules/zod/v4/classic/schemas.js
 var _installedGroups = /* @__PURE__ */ new WeakMap();
@@ -11361,18 +11301,18 @@ var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   inst.type = def.type;
   Object.defineProperty(inst, "_def", { value: def });
   inst.parse = (data, params) => parse2(inst, data, params, { callee: inst.parse });
-  inst.safeParse = (data, params) => safeParse3(inst, data, params);
+  inst.safeParse = (data, params) => safeParse2(inst, data, params);
   inst.parseAsync = async (data, params) => parseAsync2(inst, data, params, { callee: inst.parseAsync });
   inst.safeParseAsync = async (data, params) => safeParseAsync2(inst, data, params);
   inst.spa = inst.safeParseAsync;
-  inst.encode = (data, params) => encode2(inst, data, params);
-  inst.decode = (data, params) => decode2(inst, data, params);
-  inst.encodeAsync = async (data, params) => encodeAsync2(inst, data, params);
-  inst.decodeAsync = async (data, params) => decodeAsync2(inst, data, params);
-  inst.safeEncode = (data, params) => safeEncode2(inst, data, params);
-  inst.safeDecode = (data, params) => safeDecode2(inst, data, params);
-  inst.safeEncodeAsync = async (data, params) => safeEncodeAsync2(inst, data, params);
-  inst.safeDecodeAsync = async (data, params) => safeDecodeAsync2(inst, data, params);
+  inst.encode = (data, params) => encode(inst, data, params);
+  inst.decode = (data, params) => decode(inst, data, params);
+  inst.encodeAsync = async (data, params) => encodeAsync(inst, data, params);
+  inst.decodeAsync = async (data, params) => decodeAsync(inst, data, params);
+  inst.safeEncode = (data, params) => safeEncode(inst, data, params);
+  inst.safeDecode = (data, params) => safeDecode(inst, data, params);
+  inst.safeEncodeAsync = async (data, params) => safeEncodeAsync(inst, data, params);
+  inst.safeDecodeAsync = async (data, params) => safeDecodeAsync(inst, data, params);
   _installLazyMethods(inst, "ZodType", {
     check(...chks) {
       const def2 = this.def;
@@ -11822,7 +11762,7 @@ var ZodObject = /* @__PURE__ */ $constructor("ZodObject", (inst, def) => {
     }
   });
 });
-function object2(shape, params) {
+function object(shape, params) {
   const def = {
     type: "object",
     shape: shape ?? {},
@@ -12173,10 +12113,10 @@ var TaskCreationParamsSchema = looseObject({
    */
   pollInterval: number2().optional()
 });
-var TaskMetadataSchema = object2({
+var TaskMetadataSchema = object({
   ttl: number2().optional()
 });
-var RelatedTaskMetadataSchema = object2({
+var RelatedTaskMetadataSchema = object({
   taskId: string2()
 });
 var RequestMetaSchema = looseObject({
@@ -12189,7 +12129,7 @@ var RequestMetaSchema = looseObject({
    */
   [RELATED_TASK_META_KEY]: RelatedTaskMetadataSchema.optional()
 });
-var BaseRequestParamsSchema = object2({
+var BaseRequestParamsSchema = object({
   /**
    * See [General fields: `_meta`](/specification/draft/basic/index#meta) for notes on `_meta` usage.
    */
@@ -12207,18 +12147,18 @@ var TaskAugmentedRequestParamsSchema = BaseRequestParamsSchema.extend({
   task: TaskMetadataSchema.optional()
 });
 var isTaskAugmentedRequestParams = (value) => TaskAugmentedRequestParamsSchema.safeParse(value).success;
-var RequestSchema = object2({
+var RequestSchema = object({
   method: string2(),
   params: BaseRequestParamsSchema.loose().optional()
 });
-var NotificationsParamsSchema = object2({
+var NotificationsParamsSchema = object({
   /**
    * See [MCP specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/47339c03c143bb4ec01a26e721a1b8fe66634ebe/docs/specification/draft/basic/index.mdx#general-fields)
    * for notes on _meta usage.
    */
   _meta: RequestMetaSchema.optional()
 });
-var NotificationSchema = object2({
+var NotificationSchema = object({
   method: string2(),
   params: NotificationsParamsSchema.loose().optional()
 });
@@ -12230,18 +12170,18 @@ var ResultSchema = looseObject({
   _meta: RequestMetaSchema.optional()
 });
 var RequestIdSchema = union([string2(), number2().int()]);
-var JSONRPCRequestSchema = object2({
+var JSONRPCRequestSchema = object({
   jsonrpc: literal(JSONRPC_VERSION),
   id: RequestIdSchema,
   ...RequestSchema.shape
 }).strict();
 var isJSONRPCRequest = (value) => JSONRPCRequestSchema.safeParse(value).success;
-var JSONRPCNotificationSchema = object2({
+var JSONRPCNotificationSchema = object({
   jsonrpc: literal(JSONRPC_VERSION),
   ...NotificationSchema.shape
 }).strict();
 var isJSONRPCNotification = (value) => JSONRPCNotificationSchema.safeParse(value).success;
-var JSONRPCResultResponseSchema = object2({
+var JSONRPCResultResponseSchema = object({
   jsonrpc: literal(JSONRPC_VERSION),
   id: RequestIdSchema,
   result: ResultSchema
@@ -12258,10 +12198,10 @@ var ErrorCode;
   ErrorCode2[ErrorCode2["InternalError"] = -32603] = "InternalError";
   ErrorCode2[ErrorCode2["UrlElicitationRequired"] = -32042] = "UrlElicitationRequired";
 })(ErrorCode || (ErrorCode = {}));
-var JSONRPCErrorResponseSchema = object2({
+var JSONRPCErrorResponseSchema = object({
   jsonrpc: literal(JSONRPC_VERSION),
   id: RequestIdSchema.optional(),
-  error: object2({
+  error: object({
     /**
      * The error type that occurred.
      */
@@ -12301,7 +12241,7 @@ var CancelledNotificationSchema = NotificationSchema.extend({
   method: literal("notifications/cancelled"),
   params: CancelledNotificationParamsSchema
 });
-var IconSchema = object2({
+var IconSchema = object({
   /**
    * URL or data URI for the icon.
    */
@@ -12326,7 +12266,7 @@ var IconSchema = object2({
    */
   theme: _enum(["light", "dark"]).optional()
 });
-var IconsSchema = object2({
+var IconsSchema = object({
   /**
    * Optional set of sized icons that the client can display in a user interface.
    *
@@ -12340,7 +12280,7 @@ var IconsSchema = object2({
    */
   icons: array(IconSchema).optional()
 });
-var BaseMetadataSchema = object2({
+var BaseMetadataSchema = object({
   /** Intended for programmatic or logical use, but used as a display name in past specs or fallback */
   name: string2(),
   /**
@@ -12370,7 +12310,7 @@ var ImplementationSchema = BaseMetadataSchema.extend({
    */
   description: string2().optional()
 });
-var FormElicitationCapabilitySchema = intersection(object2({
+var FormElicitationCapabilitySchema = intersection(object({
   applyDefaults: boolean2().optional()
 }), record(string2(), unknown()));
 var ElicitationCapabilitySchema = preprocess((value) => {
@@ -12380,7 +12320,7 @@ var ElicitationCapabilitySchema = preprocess((value) => {
     }
   }
   return value;
-}, intersection(object2({
+}, intersection(object({
   form: FormElicitationCapabilitySchema.optional(),
   url: AssertObjectSchema.optional()
 }), record(string2(), unknown()).optional()));
@@ -12432,7 +12372,7 @@ var ServerTasksCapabilitySchema = looseObject({
     }).optional()
   }).optional()
 });
-var ClientCapabilitiesSchema = object2({
+var ClientCapabilitiesSchema = object({
   /**
    * Experimental, non-standard capabilities that the client supports.
    */
@@ -12440,7 +12380,7 @@ var ClientCapabilitiesSchema = object2({
   /**
    * Present if the client supports sampling from an LLM.
    */
-  sampling: object2({
+  sampling: object({
     /**
      * Present if the client supports context inclusion via includeContext parameter.
      * If not declared, servers SHOULD only use `includeContext: "none"` (or omit it).
@@ -12458,7 +12398,7 @@ var ClientCapabilitiesSchema = object2({
   /**
    * Present if the client supports listing roots.
    */
-  roots: object2({
+  roots: object({
     /**
      * Whether the client supports issuing notifications for changes to the roots list.
      */
@@ -12485,7 +12425,7 @@ var InitializeRequestSchema = RequestSchema.extend({
   method: literal("initialize"),
   params: InitializeRequestParamsSchema
 });
-var ServerCapabilitiesSchema = object2({
+var ServerCapabilitiesSchema = object({
   /**
    * Experimental, non-standard capabilities that the server supports.
    */
@@ -12501,7 +12441,7 @@ var ServerCapabilitiesSchema = object2({
   /**
    * Present if the server offers any prompt templates.
    */
-  prompts: object2({
+  prompts: object({
     /**
      * Whether this server supports issuing notifications for changes to the prompt list.
      */
@@ -12510,7 +12450,7 @@ var ServerCapabilitiesSchema = object2({
   /**
    * Present if the server offers any resources to read.
    */
-  resources: object2({
+  resources: object({
     /**
      * Whether this server supports clients subscribing to resource updates.
      */
@@ -12523,7 +12463,7 @@ var ServerCapabilitiesSchema = object2({
   /**
    * Present if the server offers any tools to call.
    */
-  tools: object2({
+  tools: object({
     /**
      * Whether this server supports issuing notifications for changes to the tool list.
      */
@@ -12560,7 +12500,7 @@ var PingRequestSchema = RequestSchema.extend({
   method: literal("ping"),
   params: BaseRequestParamsSchema.optional()
 });
-var ProgressSchema = object2({
+var ProgressSchema = object({
   /**
    * The progress thus far. This should increase every time progress is made, even if the total is unknown.
    */
@@ -12574,7 +12514,7 @@ var ProgressSchema = object2({
    */
   message: optional(string2())
 });
-var ProgressNotificationParamsSchema = object2({
+var ProgressNotificationParamsSchema = object({
   ...NotificationsParamsSchema.shape,
   ...ProgressSchema.shape,
   /**
@@ -12604,7 +12544,7 @@ var PaginatedResultSchema = ResultSchema.extend({
   nextCursor: CursorSchema.optional()
 });
 var TaskStatusSchema = _enum(["working", "input_required", "completed", "failed", "cancelled"]);
-var TaskSchema = object2({
+var TaskSchema = object({
   taskId: string2(),
   status: TaskStatusSchema,
   /**
@@ -12661,7 +12601,7 @@ var CancelTaskRequestSchema = RequestSchema.extend({
   })
 });
 var CancelTaskResultSchema = ResultSchema.merge(TaskSchema);
-var ResourceContentsSchema = object2({
+var ResourceContentsSchema = object({
   /**
    * The URI of this resource.
    */
@@ -12697,7 +12637,7 @@ var BlobResourceContentsSchema = ResourceContentsSchema.extend({
   blob: Base64Schema
 });
 var RoleSchema = _enum(["user", "assistant"]);
-var AnnotationsSchema = object2({
+var AnnotationsSchema = object({
   /**
    * Intended audience(s) for the resource.
    */
@@ -12711,7 +12651,7 @@ var AnnotationsSchema = object2({
    */
   lastModified: iso_exports.datetime({ offset: true }).optional()
 });
-var ResourceSchema = object2({
+var ResourceSchema = object({
   ...BaseMetadataSchema.shape,
   ...IconsSchema.shape,
   /**
@@ -12744,7 +12684,7 @@ var ResourceSchema = object2({
    */
   _meta: optional(looseObject({}))
 });
-var ResourceTemplateSchema = object2({
+var ResourceTemplateSchema = object({
   ...BaseMetadataSchema.shape,
   ...IconsSchema.shape,
   /**
@@ -12823,7 +12763,7 @@ var ResourceUpdatedNotificationSchema = NotificationSchema.extend({
   method: literal("notifications/resources/updated"),
   params: ResourceUpdatedNotificationParamsSchema
 });
-var PromptArgumentSchema = object2({
+var PromptArgumentSchema = object({
   /**
    * The name of the argument.
    */
@@ -12837,7 +12777,7 @@ var PromptArgumentSchema = object2({
    */
   required: optional(boolean2())
 });
-var PromptSchema = object2({
+var PromptSchema = object({
   ...BaseMetadataSchema.shape,
   ...IconsSchema.shape,
   /**
@@ -12874,7 +12814,7 @@ var GetPromptRequestSchema = RequestSchema.extend({
   method: literal("prompts/get"),
   params: GetPromptRequestParamsSchema
 });
-var TextContentSchema = object2({
+var TextContentSchema = object({
   type: literal("text"),
   /**
    * The text content of the message.
@@ -12890,7 +12830,7 @@ var TextContentSchema = object2({
    */
   _meta: record(string2(), unknown()).optional()
 });
-var ImageContentSchema = object2({
+var ImageContentSchema = object({
   type: literal("image"),
   /**
    * The base64-encoded image data.
@@ -12910,7 +12850,7 @@ var ImageContentSchema = object2({
    */
   _meta: record(string2(), unknown()).optional()
 });
-var AudioContentSchema = object2({
+var AudioContentSchema = object({
   type: literal("audio"),
   /**
    * The base64-encoded audio data.
@@ -12930,7 +12870,7 @@ var AudioContentSchema = object2({
    */
   _meta: record(string2(), unknown()).optional()
 });
-var ToolUseContentSchema = object2({
+var ToolUseContentSchema = object({
   type: literal("tool_use"),
   /**
    * The name of the tool to invoke.
@@ -12953,7 +12893,7 @@ var ToolUseContentSchema = object2({
    */
   _meta: record(string2(), unknown()).optional()
 });
-var EmbeddedResourceSchema = object2({
+var EmbeddedResourceSchema = object({
   type: literal("resource"),
   resource: union([TextResourceContentsSchema, BlobResourceContentsSchema]),
   /**
@@ -12976,7 +12916,7 @@ var ContentBlockSchema = union([
   ResourceLinkSchema,
   EmbeddedResourceSchema
 ]);
-var PromptMessageSchema = object2({
+var PromptMessageSchema = object({
   role: RoleSchema,
   content: ContentBlockSchema
 });
@@ -12991,7 +12931,7 @@ var PromptListChangedNotificationSchema = NotificationSchema.extend({
   method: literal("notifications/prompts/list_changed"),
   params: NotificationsParamsSchema.optional()
 });
-var ToolAnnotationsSchema = object2({
+var ToolAnnotationsSchema = object({
   /**
    * A human-readable title for the tool.
    */
@@ -13030,7 +12970,7 @@ var ToolAnnotationsSchema = object2({
    */
   openWorldHint: boolean2().optional()
 });
-var ToolExecutionSchema = object2({
+var ToolExecutionSchema = object({
   /**
    * Indicates the tool's preference for task-augmented execution.
    * - "required": Clients MUST invoke the tool as a task
@@ -13041,7 +12981,7 @@ var ToolExecutionSchema = object2({
    */
   taskSupport: _enum(["required", "optional", "forbidden"]).optional()
 });
-var ToolSchema = object2({
+var ToolSchema = object({
   ...BaseMetadataSchema.shape,
   ...IconsSchema.shape,
   /**
@@ -13052,7 +12992,7 @@ var ToolSchema = object2({
    * A JSON Schema 2020-12 object defining the expected parameters for the tool.
    * Must have type: 'object' at the root level per MCP spec.
    */
-  inputSchema: object2({
+  inputSchema: object({
     type: literal("object"),
     properties: record(string2(), AssertObjectSchema).optional(),
     required: array(string2()).optional()
@@ -13062,7 +13002,7 @@ var ToolSchema = object2({
    * returned in the structuredContent field of a CallToolResult.
    * Must have type: 'object' at the root level per MCP spec.
    */
-  outputSchema: object2({
+  outputSchema: object({
     type: literal("object"),
     properties: record(string2(), AssertObjectSchema).optional(),
     required: array(string2()).optional()
@@ -13138,7 +13078,7 @@ var ToolListChangedNotificationSchema = NotificationSchema.extend({
   method: literal("notifications/tools/list_changed"),
   params: NotificationsParamsSchema.optional()
 });
-var ListChangedOptionsBaseSchema = object2({
+var ListChangedOptionsBaseSchema = object({
   /**
    * If true, the list will be refreshed automatically when a list changed notification is received.
    * The callback will be called with the updated list.
@@ -13187,13 +13127,13 @@ var LoggingMessageNotificationSchema = NotificationSchema.extend({
   method: literal("notifications/message"),
   params: LoggingMessageNotificationParamsSchema
 });
-var ModelHintSchema = object2({
+var ModelHintSchema = object({
   /**
    * A hint for a model name.
    */
   name: string2().optional()
 });
-var ModelPreferencesSchema = object2({
+var ModelPreferencesSchema = object({
   /**
    * Optional hints to use for model selection.
    */
@@ -13211,7 +13151,7 @@ var ModelPreferencesSchema = object2({
    */
   intelligencePriority: number2().min(0).max(1).optional()
 });
-var ToolChoiceSchema = object2({
+var ToolChoiceSchema = object({
   /**
    * Controls when tools are used:
    * - "auto": Model decides whether to use tools (default)
@@ -13220,11 +13160,11 @@ var ToolChoiceSchema = object2({
    */
   mode: _enum(["auto", "required", "none"]).optional()
 });
-var ToolResultContentSchema = object2({
+var ToolResultContentSchema = object({
   type: literal("tool_result"),
   toolUseId: string2().describe("The unique identifier for the corresponding tool call."),
   content: array(ContentBlockSchema).default([]),
-  structuredContent: object2({}).loose().optional(),
+  structuredContent: object({}).loose().optional(),
   isError: boolean2().optional(),
   /**
    * See [MCP specification](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/47339c03c143bb4ec01a26e721a1b8fe66634ebe/docs/specification/draft/basic/index.mdx#general-fields)
@@ -13240,7 +13180,7 @@ var SamplingMessageContentBlockSchema = discriminatedUnion("type", [
   ToolUseContentSchema,
   ToolResultContentSchema
 ]);
-var SamplingMessageSchema = object2({
+var SamplingMessageSchema = object({
   role: RoleSchema,
   content: union([SamplingMessageContentBlockSchema, array(SamplingMessageContentBlockSchema)]),
   /**
@@ -13340,13 +13280,13 @@ var CreateMessageResultWithToolsSchema = ResultSchema.extend({
    */
   content: union([SamplingMessageContentBlockSchema, array(SamplingMessageContentBlockSchema)])
 });
-var BooleanSchemaSchema = object2({
+var BooleanSchemaSchema = object({
   type: literal("boolean"),
   title: string2().optional(),
   description: string2().optional(),
   default: boolean2().optional()
 });
-var StringSchemaSchema = object2({
+var StringSchemaSchema = object({
   type: literal("string"),
   title: string2().optional(),
   description: string2().optional(),
@@ -13355,7 +13295,7 @@ var StringSchemaSchema = object2({
   format: _enum(["email", "uri", "date", "date-time"]).optional(),
   default: string2().optional()
 });
-var NumberSchemaSchema = object2({
+var NumberSchemaSchema = object({
   type: _enum(["number", "integer"]),
   title: string2().optional(),
   description: string2().optional(),
@@ -13363,24 +13303,24 @@ var NumberSchemaSchema = object2({
   maximum: number2().optional(),
   default: number2().optional()
 });
-var UntitledSingleSelectEnumSchemaSchema = object2({
+var UntitledSingleSelectEnumSchemaSchema = object({
   type: literal("string"),
   title: string2().optional(),
   description: string2().optional(),
   enum: array(string2()),
   default: string2().optional()
 });
-var TitledSingleSelectEnumSchemaSchema = object2({
+var TitledSingleSelectEnumSchemaSchema = object({
   type: literal("string"),
   title: string2().optional(),
   description: string2().optional(),
-  oneOf: array(object2({
+  oneOf: array(object({
     const: string2(),
     title: string2()
   })),
   default: string2().optional()
 });
-var LegacyTitledEnumSchemaSchema = object2({
+var LegacyTitledEnumSchemaSchema = object({
   type: literal("string"),
   title: string2().optional(),
   description: string2().optional(),
@@ -13389,26 +13329,26 @@ var LegacyTitledEnumSchemaSchema = object2({
   default: string2().optional()
 });
 var SingleSelectEnumSchemaSchema = union([UntitledSingleSelectEnumSchemaSchema, TitledSingleSelectEnumSchemaSchema]);
-var UntitledMultiSelectEnumSchemaSchema = object2({
+var UntitledMultiSelectEnumSchemaSchema = object({
   type: literal("array"),
   title: string2().optional(),
   description: string2().optional(),
   minItems: number2().optional(),
   maxItems: number2().optional(),
-  items: object2({
+  items: object({
     type: literal("string"),
     enum: array(string2())
   }),
   default: array(string2()).optional()
 });
-var TitledMultiSelectEnumSchemaSchema = object2({
+var TitledMultiSelectEnumSchemaSchema = object({
   type: literal("array"),
   title: string2().optional(),
   description: string2().optional(),
   minItems: number2().optional(),
   maxItems: number2().optional(),
-  items: object2({
-    anyOf: array(object2({
+  items: object({
+    anyOf: array(object({
       const: string2(),
       title: string2()
     }))
@@ -13433,7 +13373,7 @@ var ElicitRequestFormParamsSchema = TaskAugmentedRequestParamsSchema.extend({
    * A restricted subset of JSON Schema.
    * Only top-level properties are allowed, without nesting.
    */
-  requestedSchema: object2({
+  requestedSchema: object({
     type: literal("object"),
     properties: record(string2(), PrimitiveSchemaDefinitionSchema),
     required: array(string2()).optional()
@@ -13489,14 +13429,14 @@ var ElicitResultSchema = ResultSchema.extend({
    */
   content: preprocess((val) => val === null ? void 0 : val, record(string2(), union([string2(), number2(), boolean2(), array(string2())])).optional())
 });
-var ResourceTemplateReferenceSchema = object2({
+var ResourceTemplateReferenceSchema = object({
   type: literal("ref/resource"),
   /**
    * The URI or URI template of the resource.
    */
   uri: string2()
 });
-var PromptReferenceSchema = object2({
+var PromptReferenceSchema = object({
   type: literal("ref/prompt"),
   /**
    * The name of the prompt or prompt template
@@ -13508,7 +13448,7 @@ var CompleteRequestParamsSchema = BaseRequestParamsSchema.extend({
   /**
    * The argument's information
    */
-  argument: object2({
+  argument: object({
     /**
      * The name of the argument
      */
@@ -13518,7 +13458,7 @@ var CompleteRequestParamsSchema = BaseRequestParamsSchema.extend({
      */
     value: string2()
   }),
-  context: object2({
+  context: object({
     /**
      * Previously-resolved variables in a URI template or prompt.
      */
@@ -13545,7 +13485,7 @@ var CompleteResultSchema = ResultSchema.extend({
     hasMore: optional(boolean2())
   })
 });
-var RootSchema = object2({
+var RootSchema = object({
   /**
    * The URI identifying the root. This *must* start with file:// for now.
    */
@@ -13674,6 +13614,158 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
+// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+var ReadBuffer = class {
+  append(chunk) {
+    this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
+  }
+  readMessage() {
+    if (!this._buffer) {
+      return null;
+    }
+    const index = this._buffer.indexOf("\n");
+    if (index === -1) {
+      return null;
+    }
+    const line = this._buffer.toString("utf8", 0, index).replace(/\r$/, "");
+    this._buffer = this._buffer.subarray(index + 1);
+    return deserializeMessage(line);
+  }
+  clear() {
+    this._buffer = void 0;
+  }
+};
+function deserializeMessage(line) {
+  return JSONRPCMessageSchema.parse(JSON.parse(line));
+}
+function serializeMessage(message) {
+  return JSON.stringify(message) + "\n";
+}
+
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+var StdioServerTransport = class {
+  constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
+    this._stdin = _stdin;
+    this._stdout = _stdout;
+    this._readBuffer = new ReadBuffer();
+    this._started = false;
+    this._ondata = (chunk) => {
+      this._readBuffer.append(chunk);
+      this.processReadBuffer();
+    };
+    this._onerror = (error2) => {
+      this.onerror?.(error2);
+    };
+  }
+  /**
+   * Starts listening for messages on stdin.
+   */
+  async start() {
+    if (this._started) {
+      throw new Error("StdioServerTransport already started! If using Server class, note that connect() calls start() automatically.");
+    }
+    this._started = true;
+    this._stdin.on("data", this._ondata);
+    this._stdin.on("error", this._onerror);
+  }
+  processReadBuffer() {
+    while (true) {
+      try {
+        const message = this._readBuffer.readMessage();
+        if (message === null) {
+          break;
+        }
+        this.onmessage?.(message);
+      } catch (error2) {
+        this.onerror?.(error2);
+      }
+    }
+  }
+  async close() {
+    this._stdin.off("data", this._ondata);
+    this._stdin.off("error", this._onerror);
+    const remainingDataListeners = this._stdin.listenerCount("data");
+    if (remainingDataListeners === 0) {
+      this._stdin.pause();
+    }
+    this._readBuffer.clear();
+    this.onclose?.();
+  }
+  send(message) {
+    return new Promise((resolve) => {
+      const json = serializeMessage(message);
+      if (this._stdout.write(json)) {
+        resolve();
+      } else {
+        this._stdout.once("drain", resolve);
+      }
+    });
+  }
+};
+
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+function isZ4Schema(s) {
+  const schema = s;
+  return !!schema._zod;
+}
+function safeParse3(schema, data) {
+  if (isZ4Schema(schema)) {
+    const result2 = safeParse(schema, data);
+    return result2;
+  }
+  const v3Schema = schema;
+  const result = v3Schema.safeParse(data);
+  return result;
+}
+function getObjectShape(schema) {
+  if (!schema)
+    return void 0;
+  let rawShape;
+  if (isZ4Schema(schema)) {
+    const v4Schema = schema;
+    rawShape = v4Schema._zod?.def?.shape;
+  } else {
+    const v3Schema = schema;
+    rawShape = v3Schema.shape;
+  }
+  if (!rawShape)
+    return void 0;
+  if (typeof rawShape === "function") {
+    try {
+      return rawShape();
+    } catch {
+      return void 0;
+    }
+  }
+  return rawShape;
+}
+function getLiteralValue(schema) {
+  if (isZ4Schema(schema)) {
+    const v4Schema = schema;
+    const def2 = v4Schema._zod?.def;
+    if (def2) {
+      if (def2.value !== void 0)
+        return def2.value;
+      if (Array.isArray(def2.values) && def2.values.length > 0) {
+        return def2.values[0];
+      }
+    }
+  }
+  const v3Schema = schema;
+  const def = v3Schema._def;
+  if (def) {
+    if (def.value !== void 0)
+      return def.value;
+    if (Array.isArray(def.values) && def.values.length > 0) {
+      return def.values[0];
+    }
+  }
+  const directValue = schema.value;
+  if (directValue !== void 0)
+    return directValue;
+  return void 0;
+}
+
 // node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
@@ -13696,7 +13788,7 @@ function getMethodLiteral(schema) {
   return value;
 }
 function parseWithCompat(schema, data) {
-  const result = safeParse2(schema, data);
+  const result = safeParse3(schema, data);
   if (!result.success) {
     throw result.error;
   }
@@ -14294,7 +14386,7 @@ var Protocol = class {
           return reject(response);
         }
         try {
-          const parseResult = safeParse2(resultSchema, response.result);
+          const parseResult = safeParse3(resultSchema, response.result);
           if (!parseResult.success) {
             reject(parseResult.error);
           } else {
@@ -15055,7 +15147,7 @@ var Server = class extends Protocol {
     const method = methodValue;
     if (method === "tools/call") {
       const wrappedHandler = async (request, extra) => {
-        const validatedRequest = safeParse2(CallToolRequestSchema, request);
+        const validatedRequest = safeParse3(CallToolRequestSchema, request);
         if (!validatedRequest.success) {
           const errorMessage = validatedRequest.error instanceof Error ? validatedRequest.error.message : String(validatedRequest.error);
           throw new McpError(ErrorCode.InvalidParams, `Invalid tools/call request: ${errorMessage}`);
@@ -15063,14 +15155,14 @@ var Server = class extends Protocol {
         const { params } = validatedRequest.data;
         const result = await Promise.resolve(handler(request, extra));
         if (params.task) {
-          const taskValidationResult = safeParse2(CreateTaskResultSchema, result);
+          const taskValidationResult = safeParse3(CreateTaskResultSchema, result);
           if (!taskValidationResult.success) {
             const errorMessage = taskValidationResult.error instanceof Error ? taskValidationResult.error.message : String(taskValidationResult.error);
             throw new McpError(ErrorCode.InvalidParams, `Invalid task creation result: ${errorMessage}`);
           }
           return taskValidationResult.data;
         }
-        const validationResult = safeParse2(CallToolResultSchema, result);
+        const validationResult = safeParse3(CallToolResultSchema, result);
         if (!validationResult.success) {
           const errorMessage = validationResult.error instanceof Error ? validationResult.error.message : String(validationResult.error);
           throw new McpError(ErrorCode.InvalidParams, `Invalid tools/call result: ${errorMessage}`);
@@ -15353,164 +15445,9 @@ var Server = class extends Protocol {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
-import process3 from "node:process";
-
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
-var ReadBuffer = class {
-  append(chunk) {
-    this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
-  }
-  readMessage() {
-    if (!this._buffer) {
-      return null;
-    }
-    const index = this._buffer.indexOf("\n");
-    if (index === -1) {
-      return null;
-    }
-    const line = this._buffer.toString("utf8", 0, index).replace(/\r$/, "");
-    this._buffer = this._buffer.subarray(index + 1);
-    return deserializeMessage(line);
-  }
-  clear() {
-    this._buffer = void 0;
-  }
-};
-function deserializeMessage(line) {
-  return JSONRPCMessageSchema.parse(JSON.parse(line));
-}
-function serializeMessage(message) {
-  return JSON.stringify(message) + "\n";
-}
-
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
-var StdioServerTransport = class {
-  constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
-    this._stdin = _stdin;
-    this._stdout = _stdout;
-    this._readBuffer = new ReadBuffer();
-    this._started = false;
-    this._ondata = (chunk) => {
-      this._readBuffer.append(chunk);
-      this.processReadBuffer();
-    };
-    this._onerror = (error2) => {
-      this.onerror?.(error2);
-    };
-  }
-  /**
-   * Starts listening for messages on stdin.
-   */
-  async start() {
-    if (this._started) {
-      throw new Error("StdioServerTransport already started! If using Server class, note that connect() calls start() automatically.");
-    }
-    this._started = true;
-    this._stdin.on("data", this._ondata);
-    this._stdin.on("error", this._onerror);
-  }
-  processReadBuffer() {
-    while (true) {
-      try {
-        const message = this._readBuffer.readMessage();
-        if (message === null) {
-          break;
-        }
-        this.onmessage?.(message);
-      } catch (error2) {
-        this.onerror?.(error2);
-      }
-    }
-  }
-  async close() {
-    this._stdin.off("data", this._ondata);
-    this._stdin.off("error", this._onerror);
-    const remainingDataListeners = this._stdin.listenerCount("data");
-    if (remainingDataListeners === 0) {
-      this._stdin.pause();
-    }
-    this._readBuffer.clear();
-    this.onclose?.();
-  }
-  send(message) {
-    return new Promise((resolve) => {
-      const json = serializeMessage(message);
-      if (this._stdout.write(json)) {
-        resolve();
-      } else {
-        this._stdout.once("drain", resolve);
-      }
-    });
-  }
-};
-
-// src/index.ts
-var API_BASE = (process.env.ROAMZY_API_BASE ?? "https://roamzy.io/api/v1").replace(/\/$/, "");
-var API_TOKEN = process.env.ROAMZY_API_TOKEN ?? "";
-var ALLOW_PURCHASE = process.env.ROAMZY_ENABLE_PURCHASE === "true";
-var USER_AGENT = "roamzy-mcp/1.4";
-var ANON_MODE = !API_TOKEN;
-var anonClaimUrl = null;
-var anonInitInFlight = null;
-async function ensureAnonSession() {
-  if (API_TOKEN) return;
-  if (anonInitInFlight) return anonInitInFlight;
-  anonInitInFlight = (async () => {
-    const resp = await fetch(`${API_BASE}/anon-session`, {
-      method: "POST",
-      headers: { "content-type": "application/json", "user-agent": USER_AGENT },
-      body: JSON.stringify({ user_agent_hint: USER_AGENT })
-    });
-    if (!resp.ok) {
-      const text = await resp.text();
-      throw new Error(`anon-session bootstrap failed: ${resp.status} ${text.slice(0, 200)}`);
-    }
-    const data = await resp.json();
-    API_TOKEN = data.api_token;
-    anonClaimUrl = data.claim_url;
-  })();
-  return anonInitInFlight;
-}
-async function callApi(method, path, body, needsAuth = false) {
-  const url = `${API_BASE}${path}`;
-  const headers = {
-    "user-agent": USER_AGENT,
-    accept: "application/json"
-  };
-  if (needsAuth) {
-    if (!API_TOKEN) {
-      try {
-        await ensureAnonSession();
-      } catch (err) {
-        throw new Error(`Could not mint anonymous session: ${err.message}. Set ROAMZY_API_TOKEN in your MCP config to use an existing account instead.`);
-      }
-    }
-    headers.authorization = `Bearer ${API_TOKEN}`;
-  }
-  if (body !== void 0) {
-    headers["content-type"] = "application/json";
-  }
-  const resp = await fetch(url, {
-    method,
-    headers,
-    body: body !== void 0 ? JSON.stringify(body) : void 0
-  });
-  const text = await resp.text();
-  let data;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    data = { error: "invalid_response", detail: text.slice(0, 500) };
-  }
-  if (!resp.ok) {
-    const obj = data;
-    throw new Error(
-      `${method} ${path} \u2192 ${resp.status} ${obj.error ?? "unknown"}: ${obj.detail ?? text.slice(0, 200)}`
-    );
-  }
-  return data;
-}
+// src/mcp-core.ts
+var ROAMZY_MCP_VERSION = "1.5.4";
+var DEFAULT_USER_AGENT = "roamzy-mcp/1.5";
 var PUBLIC_TOOLS = [
   {
     name: "roamzy_status",
@@ -15605,78 +15542,156 @@ var PURCHASE_TOOLS = [
     }
   }
 ];
-function activeTools() {
-  const tools = [...PUBLIC_TOOLS];
-  if (API_TOKEN || ANON_MODE) tools.push(...AUTHED_TOOLS);
-  if (API_TOKEN && ALLOW_PURCHASE || ANON_MODE) tools.push(...PURCHASE_TOOLS);
-  return tools;
-}
-async function dispatchTool(name, args) {
-  switch (name) {
-    case "roamzy_status":
-      return callApi("GET", "/status");
-    case "roamzy_list_countries":
-      return callApi("GET", "/catalog");
-    case "roamzy_country_detail":
-      return callApi("GET", `/countries/${encodeURIComponent(String(args.country_slug ?? ""))}`);
-    case "roamzy_estimate":
-      return callApi("POST", "/estimate", { country_slug: args.country_slug, mb_estimated: args.mb_estimated });
-    case "roamzy_support":
-      return callApi("GET", "/support");
-    case "roamzy_payment_options":
-      return callApi("GET", "/payment-options");
-    case "roamzy_me":
-      return callApi("GET", "/me", void 0, true);
-    case "roamzy_list_esims":
-      return callApi("GET", "/esims", void 0, true);
-    case "roamzy_get_esim": {
-      const result = await callApi("GET", `/esims/${encodeURIComponent(String(args.esim_id ?? ""))}`, void 0, true);
-      const cleaned = JSON.parse(JSON.stringify(result));
-      const act = cleaned.activation;
-      if (act && typeof act === "object") {
-        delete act.qr_image_url;
-        act.qr_render_instructions = "Generate the QR PNG locally from `qr_payload` (the LPA URI). If you have Python/JS code execution available, use a qrcode library (e.g. `qrcode` for Python, `qrcode` npm package for Node) to produce a fresh PNG and offer it as a downloadable file. Caption with the user's MSISDN. DO NOT use external QR-generation services or web links \u2014 the local approach is both more reliable and better UX.";
+function buildRoamzyMcpServer(config2) {
+  const apiBase = config2.apiBase.replace(/\/$/, "");
+  const userAgent = config2.userAgent ?? DEFAULT_USER_AGENT;
+  const allowPurchase = config2.allowPurchase;
+  const clientIp = config2.clientIp;
+  let apiToken = config2.initialApiToken;
+  const anonMode = !config2.initialApiToken;
+  let anonClaimUrl = null;
+  let anonInitInFlight = null;
+  async function ensureAnonSession() {
+    if (apiToken) return;
+    if (anonInitInFlight) return anonInitInFlight;
+    anonInitInFlight = (async () => {
+      const anonHeaders = { "content-type": "application/json", "user-agent": userAgent };
+      if (clientIp) anonHeaders["cf-connecting-ip"] = clientIp;
+      const resp = await fetch(`${apiBase}/anon-session`, {
+        method: "POST",
+        headers: anonHeaders,
+        body: JSON.stringify({ user_agent_hint: userAgent })
+      });
+      if (!resp.ok) {
+        const text = await resp.text();
+        throw new Error(`anon-session bootstrap failed: ${resp.status} ${text.slice(0, 200)}`);
       }
-      return cleaned;
-    }
-    case "roamzy_order_status":
-      return callApi("GET", `/orders/${encodeURIComponent(String(args.order_id ?? ""))}`, void 0, true);
-    case "roamzy_create_order": {
-      if (!ALLOW_PURCHASE && !ANON_MODE) {
-        throw new Error("Purchase tools disabled. Set ROAMZY_ENABLE_PURCHASE=true in the MCP server env block to enable. (Anonymous mode \u2014 no ROAMZY_API_TOKEN env \u2014 has purchases enabled by default.)");
-      }
-      const result = await callApi("POST", "/orders", { country_slug: args.country_slug, amount_usdt: args.amount_usdt, ...args.pay_currency ? { pay_currency: args.pay_currency } : {} }, true);
-      if (ANON_MODE && anonClaimUrl && typeof result === "object" && result !== null) {
-        result.claim_url = anonClaimUrl;
-        result.claim_hint = `This eSIM is owned by an anonymous Roamzy account. To attach it to a permanent account (Google or Telegram), visit ${anonClaimUrl} and enter your MSISDN as verification. The eSIM works regardless.`;
-      }
-      return result;
-    }
-    default:
-      throw new Error(`Unknown tool: ${name}`);
+      const data = await resp.json();
+      apiToken = data.api_token;
+      anonClaimUrl = data.claim_url;
+    })();
+    return anonInitInFlight;
   }
-}
-var server = new Server(
-  { name: "roamzy", version: "1.5.3" },
-  { capabilities: { tools: {} } }
-);
-server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: activeTools() }));
-server.setRequestHandler(CallToolRequestSchema, async (req) => {
-  try {
-    const result = await dispatchTool(req.params.name, req.params.arguments ?? {});
-    const explicit = result.__mcp_content;
-    if (Array.isArray(explicit)) {
-      return { content: explicit };
+  async function callApi(method, path, body, needsAuth = false) {
+    const url = `${apiBase}${path}`;
+    const headers = {
+      "user-agent": userAgent,
+      accept: "application/json"
+    };
+    if (clientIp) headers["cf-connecting-ip"] = clientIp;
+    if (needsAuth) {
+      if (!apiToken) {
+        try {
+          await ensureAnonSession();
+        } catch (err) {
+          throw new Error(`Could not mint anonymous session: ${err.message}. Set ROAMZY_API_TOKEN in your MCP config to use an existing account instead.`);
+        }
+      }
+      headers.authorization = `Bearer ${apiToken}`;
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
-    };
-  } catch (err) {
-    return {
-      isError: true,
-      content: [{ type: "text", text: err.message }]
-    };
+    if (body !== void 0) {
+      headers["content-type"] = "application/json";
+    }
+    const init = { method, headers };
+    if (body !== void 0) init.body = JSON.stringify(body);
+    const resp = await fetch(url, init);
+    const text = await resp.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { error: "invalid_response", detail: text.slice(0, 500) };
+    }
+    if (!resp.ok) {
+      const obj = data;
+      throw new Error(
+        `${method} ${path} \u2192 ${resp.status} ${obj.error ?? "unknown"}: ${obj.detail ?? text.slice(0, 200)}`
+      );
+    }
+    return data;
   }
+  function activeTools() {
+    const tools = [...PUBLIC_TOOLS];
+    if (apiToken || anonMode) tools.push(...AUTHED_TOOLS);
+    if (apiToken && allowPurchase || anonMode) tools.push(...PURCHASE_TOOLS);
+    return tools;
+  }
+  async function dispatchTool(name, args) {
+    switch (name) {
+      case "roamzy_status":
+        return callApi("GET", "/status");
+      case "roamzy_list_countries":
+        return callApi("GET", "/catalog");
+      case "roamzy_country_detail":
+        return callApi("GET", `/countries/${encodeURIComponent(String(args.country_slug ?? ""))}`);
+      case "roamzy_estimate":
+        return callApi("POST", "/estimate", { country_slug: args.country_slug, mb_estimated: args.mb_estimated });
+      case "roamzy_support":
+        return callApi("GET", "/support");
+      case "roamzy_payment_options":
+        return callApi("GET", "/payment-options");
+      case "roamzy_me":
+        return callApi("GET", "/me", void 0, true);
+      case "roamzy_list_esims":
+        return callApi("GET", "/esims", void 0, true);
+      case "roamzy_get_esim": {
+        const result = await callApi("GET", `/esims/${encodeURIComponent(String(args.esim_id ?? ""))}`, void 0, true);
+        const cleaned = JSON.parse(JSON.stringify(result));
+        const act = cleaned.activation;
+        if (act && typeof act === "object") {
+          delete act.qr_image_url;
+          act.qr_render_instructions = "Generate the QR PNG locally from `qr_payload` (the LPA URI). If you have Python/JS code execution available, use a qrcode library (e.g. `qrcode` for Python, `qrcode` npm package for Node) to produce a fresh PNG and offer it as a downloadable file. Caption with the user's MSISDN. DO NOT use external QR-generation services or web links \u2014 the local approach is both more reliable and better UX.";
+        }
+        return cleaned;
+      }
+      case "roamzy_order_status":
+        return callApi("GET", `/orders/${encodeURIComponent(String(args.order_id ?? ""))}`, void 0, true);
+      case "roamzy_create_order": {
+        if (!allowPurchase && !anonMode) {
+          throw new Error("Purchase tools disabled. Set ROAMZY_ENABLE_PURCHASE=true in the MCP server env block to enable. (Anonymous mode \u2014 no ROAMZY_API_TOKEN env \u2014 has purchases enabled by default.)");
+        }
+        const result = await callApi("POST", "/orders", { country_slug: args.country_slug, amount_usdt: args.amount_usdt, ...args.pay_currency ? { pay_currency: args.pay_currency } : {} }, true);
+        if (anonMode && anonClaimUrl && typeof result === "object" && result !== null) {
+          result.claim_url = anonClaimUrl;
+          result.claim_hint = `This eSIM is owned by an anonymous Roamzy account. To attach it to a permanent account (Google or Telegram), visit ${anonClaimUrl} and enter your MSISDN as verification. The eSIM works regardless.`;
+        }
+        return result;
+      }
+      default:
+        throw new Error(`Unknown tool: ${name}`);
+    }
+  }
+  const server2 = new Server(
+    { name: "roamzy", version: ROAMZY_MCP_VERSION },
+    { capabilities: { tools: {} } }
+  );
+  server2.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: activeTools() }));
+  server2.setRequestHandler(CallToolRequestSchema, async (req) => {
+    try {
+      const result = await dispatchTool(req.params.name, req.params.arguments ?? {});
+      const explicit = result.__mcp_content;
+      if (Array.isArray(explicit)) {
+        return { content: explicit };
+      }
+      return {
+        content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
+      };
+    } catch (err) {
+      return {
+        isError: true,
+        content: [{ type: "text", text: err.message }]
+      };
+    }
+  });
+  return server2;
+}
+var ALL_ROAMZY_TOOLS = [...PUBLIC_TOOLS, ...AUTHED_TOOLS, ...PURCHASE_TOOLS];
+
+// src/index.ts
+var server = buildRoamzyMcpServer({
+  apiBase: process.env.ROAMZY_API_BASE ?? "https://roamzy.io/api/v1",
+  initialApiToken: process.env.ROAMZY_API_TOKEN ?? "",
+  allowPurchase: process.env.ROAMZY_ENABLE_PURCHASE === "true"
 });
 var transport = new StdioServerTransport();
 await server.connect(transport);

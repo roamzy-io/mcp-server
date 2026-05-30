@@ -1,6 +1,6 @@
 {
   "name": "@roamzy/mcp-server",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "mcpName": "io.github.roamzy-io/mcp-server",
   "description": "MCP server for Roamzy — buy and manage global eSIM through Claude, Cursor, Continue, and any MCP client.",
   "type": "module",
@@ -16,6 +16,8 @@
     "SECURITY.md"
   ],
   "scripts": {
+    "sync-core": "node scripts/sync-core.mjs",
+    "prebuild": "node scripts/sync-core.mjs",
     "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --banner:js=\"#!/usr/bin/env node\" && chmod +x dist/index.js",
     "pack:tgz": "npm pack --pack-destination=dist/",
     "build:tgz": "pnpm run build && pnpm run pack:tgz",
