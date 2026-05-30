@@ -6,12 +6,18 @@
     "url": "https://github.com/roamzy-io/mcp-server",
     "source": "github"
   },
-  "version": "1.5.3",
+  "version": "1.5.4",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://roamzy.io/mcp"
+    }
+  ],
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@roamzy/mcp-server",
-      "version": "1.5.3",
+      "version": "1.5.4",
       "transport": {
         "type": "stdio"
       },

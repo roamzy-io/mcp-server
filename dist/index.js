@@ -15446,7 +15446,7 @@ var Server = class extends Protocol {
 };
 
 // src/mcp-core.ts
-var ROAMZY_MCP_VERSION = "1.5.3";
+var ROAMZY_MCP_VERSION = "1.5.4";
 var DEFAULT_USER_AGENT = "roamzy-mcp/1.5";
 var PUBLIC_TOOLS = [
   {

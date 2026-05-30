@@ -5,6 +5,23 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4] — 2026-05-30
+
+> Remote-discovery release. No change to stdio tool behaviour.
+
+### Added
+
+- **`remotes` entry in the Official MCP Registry manifest** (`server.json`):
+  advertises the zero-install remote endpoint `https://roamzy.io/mcp`
+  (Streamable HTTP, anonymous-first) alongside the npm/stdio package, so agents
+  discovering Roamzy via the registry can connect with no install.
+
+### Changed
+
+- The stdio entrypoint now imports the shared `buildRoamzyMcpServer` factory
+  (vendored into `src/mcp-core.ts` via `npm run sync-core`) — single source of
+  truth shared with the remote endpoint; the repo builds standalone off GitHub.
+
 ## [1.5.3] — 2026-05-22
 
 > Discoverability + polish release. No functional change to tool
