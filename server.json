@@ -1,12 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.roamzy-io/mcp-server",
-  "description": "Buy a global eSIM through chat. 192 countries, per-MB USDT/USDC billing, no signup needed.",
+  "description": "Buy a global eSIM through chat — and earn USDT referral commissions. 192 countries, per-MB billing, no signup needed. Agents earn even anonymously.",
   "repository": {
     "url": "https://github.com/roamzy-io/mcp-server",
     "source": "github"
   },
-  "version": "1.5.4",
+  "version": "1.6.0",
   "remotes": [
     {
       "type": "streamable-http",
@@ -17,7 +17,7 @@
     {
       "registryType": "npm",
       "identifier": "@roamzy/mcp-server",
-      "version": "1.5.4",
+      "version": "1.6.0",
       "transport": {
         "type": "stdio"
       },

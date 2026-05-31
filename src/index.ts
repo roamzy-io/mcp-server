@@ -5,7 +5,7 @@
  * 2026-05-29). All tool definitions + dispatch live in
  * `product/shared/src/mcp-core.ts` — the SAME factory powers the remote
  * Streamable HTTP endpoint at https://roamzy.io/mcp. One source of truth for
- * the 11 tools; this file only wires the stdio transport + env config.
+ * the 12 tools; this file only wires the stdio transport + env config.
  *
  * INSTALL (Claude Desktop / Cursor / Continue / any MCP client):
  *

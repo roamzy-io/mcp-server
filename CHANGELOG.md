@@ -5,6 +5,24 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] — 2026-05-31
+
+> Agent-earn release. Agents can now earn referral commissions.
+
+### Added
+
+- **`roamzy_referral` tool** (read-only): returns your referral link + earnings.
+  Roamzy pays 20% (default) of every cash payment made by accounts that join
+  through your link — forever, paid in USDT. Works in anonymous mode too: an
+  anonymous agent earns and can spend earnings on its own eSIM traffic; cashing
+  out to a wallet requires linking a Google/Telegram identity. Tool count 11 → 12.
+
+### Changed
+
+- Backed by the new `GET /api/v1/referral` endpoint and a `ref` attribution
+  parameter on `POST /api/v1/anon-session` (an agent can attribute a buyer it
+  refers). Remote `https://roamzy.io/mcp` serves the new tool to every client.
+
 ## [1.5.4] — 2026-05-30
 
 > Remote-discovery release. No change to stdio tool behaviour.
