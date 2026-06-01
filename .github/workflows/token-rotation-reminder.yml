@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check expiration and file issue if due
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           # The expiration date the operator picked when generating the
           # current NPM_TOKEN. Update this when rotating.
