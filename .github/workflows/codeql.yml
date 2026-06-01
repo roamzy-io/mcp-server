@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           # security-extended ramps up the query set vs default — slower,
@@ -55,9 +55,9 @@ jobs:
       - name: Autobuild
         # For JS/TS, autobuild is a no-op (no compile step needed for
         # CodeQL to analyze). Included for completeness; safe to leave.
-        uses: github/codeql-action/autobuild@v3
+        uses: github/codeql-action/autobuild@v4
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: '/language:${{ matrix.language }}'
