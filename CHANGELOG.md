@@ -5,6 +5,20 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] — 2026-06-04
+
+> Localization cleanup. Tool descriptions are now fully English.
+
+### Changed
+
+- **Tool descriptions: removed hardcoded Russian phrases** from
+  `roamzy_payment_options`, `roamzy_get_esim`, and `roamzy_create_order`.
+  The agent-facing prompts (pitch opener, top-up question, payment-method
+  question, QR caption, claim-link recovery framing) were forcing Russian
+  user-facing text regardless of the user's language. They are now English
+  and language-neutral, so the agent naturally mirrors the user's language.
+  No tool/schema/behaviour change — descriptions only. Tool count stays 12.
+
 ## [1.6.0] — 2026-05-31
 
 > Agent-earn release. Agents can now earn referral commissions.

@@ -1,6 +1,6 @@
 {
   "name": "@roamzy/mcp-server",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "mcpName": "io.github.roamzy-io/mcp-server",
   "description": "MCP server for Roamzy — buy and manage global eSIM through Claude, Cursor, Continue, and any MCP client.",
   "type": "module",
