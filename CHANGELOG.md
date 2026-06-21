@@ -5,6 +5,18 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2] — 2026-06-21
+
+> Factual correction. Country count updated to 193.
+
+### Changed
+
+- **Tool descriptions: country count 192 → 193** in `roamzy_list_countries`,
+  `roamzy_country_detail`, and `roamzy_create_order` (including the pitch
+  opener the agent speaks to the user). Roamzy now covers 193 countries
+  (Australia was added). No tool / schema / behaviour change — descriptions
+  only. Tool count stays 12.
+
 ## [1.6.1] — 2026-06-04
 
 > Localization cleanup. Tool descriptions are now fully English.
