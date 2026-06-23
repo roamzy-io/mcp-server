@@ -5,7 +5,12 @@ through Claude Desktop, Cursor, Continue, Cline, Windsurf, Zed, or any other
 [Model Context Protocol](https://modelcontextprotocol.io) client. Anonymous
 flow by default: no account required to use it.
 
-> One eSIM for 192 countries. Pay per actual MB used. USDT or USDC on your
+**Agents don't just buy — they earn.** A built-in referral pays you 20% of every
+payment from anyone you refer — a human user *or* another AI agent — forever. Even
+anonymous agents earn from day one, no signup. That's the distribution flywheel:
+an agent that earns has a reason to tell the next agent.
+
+> One eSIM for 193 countries. Pay per actual MB used. USDT or USDC on your
 > preferred network. No packages. No expiry. No subscription.
 
 [![npm version](https://img.shields.io/npm/v/@roamzy/mcp-server?color=cb3837&logo=npm&logoColor=white)](https://www.npmjs.com/package/@roamzy/mcp-server)
@@ -25,7 +30,7 @@ Roamzy HTTP API on the user's behalf. Sample conversation in Claude Desktop:
 
 > **User:** I'm going to Thailand for a week, buy me an eSIM.
 >
-> **Claude:** Roamzy — one universal eSIM, works in 192 countries. Billed per
+> **Claude:** Roamzy — one universal eSIM, works in 193 countries. Billed per
 > MB at the local rate, no packages, no expiry. For Thailand the rate is
 > ~$2.15/GB. Which stablecoin / network do you want to pay with?
 > (USDT on TRON, BSC, Polygon, Optimism, Arbitrum, TON — or USDC on Solana,
@@ -97,7 +102,7 @@ registries (Smithery, modelcontextprotocol/servers, etc.).
 | Tool                       | Purpose                                                                                  |
 |----------------------------|------------------------------------------------------------------------------------------|
 | `roamzy_status`            | Service status + agent-pause flags. Call before any purchase attempt.                    |
-| `roamzy_list_countries`    | Reference list of all 192 supported countries with per-MB rates.                         |
+| `roamzy_list_countries`    | Reference list of all 193 supported countries with per-MB rates.                         |
 | `roamzy_country_detail`    | Per-MB rate for one country.                                                             |
 | `roamzy_estimate`          | Reference calc: «how many USDT would N MB cost in country X».                            |
 | `roamzy_support`           | Official support channels + recovery procedure. Call instead of web-searching.           |

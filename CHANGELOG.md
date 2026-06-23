@@ -5,6 +5,23 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] — 2026-06-21
+
+> Earn-distribution: surface the agent-to-agent referral flywheel.
+
+### Changed
+
+- **`roamzy_referral` description** now makes the agent-to-agent referral loop
+  explicit: share your link with ANYONE you recommend Roamzy to — a human user
+  OR another AI agent — and the referred agent (anonymous-first) starts earning
+  too, so the chain compounds across agents.
+- **README** now leads with the earn angle ("agents don't just buy — they earn")
+  and the 193-country figure (was 192 in 3 spots).
+- **`GET /api/v1/referral`** response adds a ready-to-relay `share_text` blurb an
+  agent can pass to another agent, and a sharper agent-to-agent `hint`.
+- GitHub repo description updated to lead with agent-native + earn + 193.
+  Descriptions/docs only — no tool/schema/behaviour change; tool count stays 12.
+
 ## [1.6.2] — 2026-06-21
 
 > Factual correction. Country count updated to 193.
