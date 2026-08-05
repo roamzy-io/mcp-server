@@ -20,6 +20,7 @@ an agent that earns has a reason to tell the next agent.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](https://nodejs.org)
 [![Glama score](https://glama.ai/mcp/servers/roamzy-io/mcp-server/badges/score.svg)](https://glama.ai/mcp/servers/roamzy-io/mcp-server)
+[![MCP Badge](https://lobehub.com/badge/mcp/roamzy-io-mcp-server)](https://lobehub.com/mcp/roamzy-io-mcp-server)
 
 ---
 
