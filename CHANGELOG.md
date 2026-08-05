@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.6.4] — 2026-08-05
+
+### Fixed
+
+- **The server now introduces itself with its real version.** Published 1.6.3
+  contained code that answered `initialize` with `serverInfo.version: "1.6.0"`.
+  The constant was corrected in the monorepo on 2026-07-22, a month after the
+  artifact was published, and the package was never rebuilt — so every client
+  that connected over stdio was told 1.6.0. Found by running a clean
+  `npx -y @roamzy/mcp-server` before submitting to a marketplace, which is
+  exactly what that pre-flight check is for.
+
+### Changed
+
+- The version is read from one place instead of six. `ROAMZY_MCP_VERSION` in
+  `shared/src/mcp-core.ts` is now re-exported and consumed by the MCP server
+  card, the `/api/v1` manifest and their tests, all of which previously carried
+  a hardcoded string. A release can no longer be half-applied.
+
+No tool, schema or behaviour changes: still 12 tools, 193 countries, anonymous
+by default.
+
 All notable changes to `@roamzy/mcp-server` are recorded here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),

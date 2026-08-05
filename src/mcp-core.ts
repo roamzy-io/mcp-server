@@ -29,7 +29,7 @@ import {
   type Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 
-export const ROAMZY_MCP_VERSION = '1.6.0';
+export const ROAMZY_MCP_VERSION = '1.6.4';
 const DEFAULT_USER_AGENT = 'roamzy-mcp/1.5';
 
 export interface RoamzyMcpConfig {
@@ -331,5 +331,5 @@ export function buildRoamzyMcpServer(config: RoamzyMcpConfig): Server {
   return server;
 }
 
-/** Exposed for tests: the full tool catalog (all 11) regardless of gating. */
+/** Exposed for tests: the full tool catalog (all 12) regardless of gating. */
 export const ALL_ROAMZY_TOOLS: Tool[] = [...PUBLIC_TOOLS, ...AUTHED_TOOLS, ...PURCHASE_TOOLS];
