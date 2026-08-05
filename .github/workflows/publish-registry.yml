@@ -83,6 +83,32 @@ jobs:
             exit 1
           fi
 
+      - name: Wait for npm to actually have this version
+        # Both workflows fire on the same tag and run in parallel, which this file
+        # got wrong on its first real release (1.6.5): the Registry validates that
+        # the npm version it is being pointed at exists, `release.yml` had not
+        # finished publishing it yet, and the Registry answered
+        #   "version '1.6.5' was not found (status: 404) ... publish it before
+        #    registering it"
+        # There is also plain CDN lag after a successful publish — PROJECT-CONFIG
+        # already records ~5 minutes of it biting the Glama rebuild. So wait for
+        # the version to be fetchable rather than assuming ordering we do not have.
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          URL="https://registry.npmjs.org/@roamzy/mcp-server/${VERSION}"
+          for attempt in $(seq 1 40); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$URL" || echo 000)
+            if [ "$code" = "200" ]; then
+              echo "npm has ${VERSION} (attempt ${attempt})"
+              exit 0
+            fi
+            echo "attempt ${attempt}: npm says ${code} for ${VERSION}, waiting…"
+            sleep 15
+          done
+          echo "::error::npm never served ${VERSION} within 10 minutes — check the Release workflow before re-running this one"
+          exit 1
+
       - name: Authenticate via GitHub Actions OIDC
         run: ./mcp-publisher login github-oidc
 
