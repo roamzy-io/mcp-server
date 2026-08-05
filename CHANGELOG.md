@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.6.6] — 2026-08-05
+
+### Fixed
+
+- **A customer with an unpaid order could no longer pay it.** `pay_url` was
+  returned once, in the create-order response, and stored nowhere — not on the
+  row, not in `roamzy_order_status`, nowhere. Close the chat and the link that
+  takes your money was gone. Meanwhile the unpaid reservation blocks a second
+  order for 30 minutes, and the refusal advised "finish or cancel it", of which
+  the API offered neither: there is no cancel operation, and finishing needed the
+  link that no longer existed. A real agent transcript ended with the model
+  working through both suggestions, finding neither, and sending the customer to
+  support.
+
+  The link is now persisted (migration 0051) and comes back in two places:
+  `roamzy_order_status` while the order is waiting, and inside the
+  `esim_already_reserved` refusal as `pending_reservation` — with `pay_url`,
+  `amount_usdt`, `msisdn`, and `retry_after_seconds` saying when the reservation
+  releases itself for anyone who would rather start over.
+
+### Changed
+
+- `roamzy_create_order` now states the constraint before you hit it: one pending
+  order at a time, 30-minute reservation, and what the refusal carries. An agent
+  should not have to learn the rules from an error.
+
+Deliberately no cancel operation. An unpaid order is worth paying, not
+discarding, and a cancel tool would let an agent destroy a reservation its user
+might still be about to settle.
+
 ## [1.6.5] — 2026-08-05
 
 ### Added
