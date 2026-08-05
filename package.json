@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "sync-core": "node scripts/sync-core.mjs",
+    "check:install-config": "node scripts/check-install-config.mjs",
     "prebuild": "node scripts/sync-core.mjs",
     "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --banner:js=\"#!/usr/bin/env node\" && chmod +x dist/index.js",
     "pack:tgz": "npm pack --pack-destination=dist/",

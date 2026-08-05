@@ -70,6 +70,12 @@ jobs:
         # publish.
         run: npx tsc --noEmit
 
+      - name: Install snippet is stated once, not twice
+        # `.mcp.json` (for Open Plugins scanners) and the README block (for humans)
+        # carry the same object. Two copies of one fact rot quietly, so assert they
+        # still agree before anything ships.
+        run: npm run check:install-config
+
       - name: Build
         run: npm run build
 
