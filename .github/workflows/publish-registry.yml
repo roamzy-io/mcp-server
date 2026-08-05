@@ -1,0 +1,90 @@
+# Publishes this server's metadata to the official MCP Registry
+# (https://registry.modelcontextprotocol.io), entry `io.github.roamzy-io/mcp-server`.
+#
+# WHY THIS EXISTS AS A SEPARATE WORKFLOW
+#
+# Two reasons, both learned the hard way on 2026-08-05:
+#
+# 1. Namespace ownership. The Registry grants `io.github.<name>/*` to whoever can
+#    prove they are <name>. A personal `mcp-publisher login github` proves only
+#    `artur-mamontov`, so publishing `io.github.roamzy-io/mcp-server` from a laptop
+#    fails with 403 — the "MCP Registry Login (Prod)" GitHub App is identity-only
+#    and is not installed on the org, so it cannot see the org membership even
+#    though that membership is public. GitHub Actions OIDC has no such problem:
+#    the token carries `repository_owner = roamzy-io`, which IS the namespace.
+#    No personal login, nothing to expire, nothing to re-authorize.
+#
+# 2. Blast radius. This must never be part of `release.yml`. A Registry hiccup
+#    would otherwise fail the job that publishes to npm and cuts the GitHub
+#    Release — and we already know that shape of failure: when the npm step died
+#    on 1.6.4, the release step after it silently never ran. Keep the money path
+#    and the metadata path in separate jobs.
+#
+# TRIGGERS
+#   - push of a `v*` tag  → every release refreshes the Registry automatically
+#   - workflow_dispatch   → run it by hand for a version that was already tagged
+#
+# The Registry holds METADATA only (name, description, remotes, package pointer)
+# — no per-tool descriptions. A tool-text change therefore needs no republish;
+# see docs/MCP-RELEASE-RUNBOOK.md. What it does hold is `packages[0].version`,
+# which is what a registry-driven installer will pin — so letting that number
+# rot points agents at an old build.
+
+name: Publish to MCP Registry
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish-registry:
+    name: Publish server.json to the MCP Registry
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write     # required: this is the OIDC token we authenticate with
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Install mcp-publisher
+        # Pinned deliberately. This binary runs with publish rights over our
+        # namespace, so we take a known version rather than whatever `latest`
+        # resolves to on the day. Bump PUBLISHER_VERSION when the Registry
+        # requires it — a failed run here is loud and touches nothing else.
+        # The release also ships .sbom.json and .sigstore.json assets if we ever
+        # want attestation verification in this step.
+        env:
+          PUBLISHER_VERSION: v1.8.0
+        run: |
+          set -euo pipefail
+          curl -fsSL -o mcp-publisher.tar.gz \
+            "https://github.com/modelcontextprotocol/registry/releases/download/${PUBLISHER_VERSION}/mcp-publisher_linux_amd64.tar.gz"
+          tar xzf mcp-publisher.tar.gz mcp-publisher
+          chmod +x mcp-publisher
+          ./mcp-publisher --version
+
+      - name: Sanity-check server.json against package.json
+        # The Registry entry advertises an npm version to installers. If it
+        # disagrees with the package we actually published, agents get pointed at
+        # the wrong build — the exact drift class that made 1.6.4 necessary.
+        run: |
+          set -euo pipefail
+          PKG=$(node -p "require('./package.json').version")
+          SRV=$(node -p "require('./server.json').version")
+          SRV_PKG=$(node -p "require('./server.json').packages[0].version")
+          echo "package.json=$PKG server.json=$SRV server.json/packages[0]=$SRV_PKG"
+          if [ "$PKG" != "$SRV" ] || [ "$PKG" != "$SRV_PKG" ]; then
+            echo "::error::version mismatch — see step 2 of the release checklist in docs/PROJECT-CONFIG.md"
+            exit 1
+          fi
+
+      - name: Authenticate via GitHub Actions OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish
+        run: ./mcp-publisher publish
