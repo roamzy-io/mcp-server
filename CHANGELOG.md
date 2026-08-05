@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.6.5] — 2026-08-05
+
+### Added
+
+- **Every tool now declares an `outputSchema`, and the server returns
+  `structuredContent` to match it.** Callers had only prose to work with: an agent
+  wanting the rate for one country had to re-parse a JSON string it was handed as
+  text. The two halves ship together on purpose — MCP 2025-06-18 obliges a server
+  that advertises a schema to send the structured payload, and a schema with
+  nothing behind it is worse than none, because callers build on the promise. The
+  text block is still sent alongside, so clients that never read the structured
+  field are unaffected. Schemas are derived from live responses and stay
+  permissive: `required` lists only fields present on every response, and nothing
+  sets `additionalProperties: false`.
+- **Tool annotations** (`title`, `readOnlyHint`, `destructiveHint`,
+  `idempotentHint`, `openWorldHint`). Not decoration: without them a careful
+  client must treat "what does data cost in Japan" as possibly destructive and
+  stop to ask the user for permission. Eleven tools are read-only and idempotent.
+  `roamzy_create_order` is neither, and says so — every call mints a new order and
+  a new invoice, so a client that retried it on a timeout would charge the user
+  twice.
+
+### Fixed
+
+- The outgoing `User-Agent` said `roamzy-mcp/1.5` — a version typed by hand and
+  last correct months ago. It is now derived from `ROAMZY_MCP_VERSION`, closing
+  the last of the hardcoded copies 1.6.4 started removing.
+
+No tool was renamed and no input schema changed: still 12 tools, 193 countries,
+anonymous by default.
+
 ## [1.6.4] — 2026-08-05
 
 ### Fixed
