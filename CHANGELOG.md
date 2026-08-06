@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.7 — 2026-08-06
+
+No functional change to the server. This release exists to prove the publishing
+path itself: npm Trusted Publishing (OIDC) replaced the long-lived `NPM_TOKEN`,
+and an untested credential change is a promise rather than a fact.
+
+- **Published without a token.** GitHub mints a short-lived identity per run and
+  npm verifies it. There is no publishing credential left to leak or rotate.
+  Prompted by the security audit of 2026-08-06, which named long-lived tokens as
+  one of the conditions that turn a prompt injection into a supply-chain
+  compromise — and this package runs on ~491 machines a week with no model in
+  the loop to object to a bad publish.
+
 ## [1.6.6] — 2026-08-05
 
 ### Fixed

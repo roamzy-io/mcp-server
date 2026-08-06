@@ -29,7 +29,7 @@ import {
   type Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 
-export const ROAMZY_MCP_VERSION = '1.6.6';
+export const ROAMZY_MCP_VERSION = '1.6.7';
 const DEFAULT_USER_AGENT = `roamzy-mcp/${ROAMZY_MCP_VERSION}`;
 
 export interface RoamzyMcpConfig {
