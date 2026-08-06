@@ -64,11 +64,15 @@ jobs:
           cache: 'npm'
 
       - name: Upgrade npm to a version that can publish over OIDC
-        # Node 20 ships npm 10.x. Trusted Publishing landed in npm 11.5.1, and
-        # an older client simply falls back to looking for a token that no
-        # longer exists — the failure reads as an auth error, not a version
-        # one, so pin the requirement here rather than debugging it later.
-        run: npm install -g npm@latest && npm --version
+        # Node 20 ships npm 10.x; Trusted Publishing landed in npm 11.5.1. The
+        # major is pinned deliberately: `npm@latest` is now 12.x, which requires
+        # Node >= 22.22 and dies with EBADENGINE on this runner. That is exactly
+        # how the first attempt at this release failed (run 31106958055), and
+        # the error names the engine, not the auth — easy to misread as OIDC
+        # being broken when it had not yet been reached.
+        #
+        # Raise this to `npm@12` only together with the Node version above.
+        run: npm install -g npm@^11 && npm --version
 
       - name: Install dependencies (strict, from lockfile)
         # `npm ci` is the strict, reproducible variant of `npm install`. It:
