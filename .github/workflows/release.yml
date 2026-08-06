@@ -7,19 +7,28 @@
 #   3. `pnpm install` (frozen lockfile — fails if package-lock drifts).
 #   4. `pnpm run build` (runs esbuild to produce dist/index.js).
 #   5. Sanity-test the bundle (npx-style invocation, smoke-test MCP handshake).
-#   6. `npm publish --access public --provenance` to the npm registry.
+#   6. `npm publish --access public` to the npm registry, authenticated by OIDC.
 #   7. Create a draft GitHub release (operator manually publishes once happy).
 #
-# Required repo secrets (set via Settings → Secrets and variables → Actions):
-#   - NPM_TOKEN : a granular access token scoped to @roamzy/mcp-server with
-#                 "publish" permission. Generate at
-#                 https://www.npmjs.com/settings/<your-username>/tokens/granular-access-tokens/new
-#                 — DO NOT use a "classic" token; granular tokens are scoped.
-#                 Operator action: create token, then paste into the secret.
+# Required repo secrets: NONE.
 #
-# Provenance: npm publish runs with `--provenance` so the published package
-# carries a signed link back to this exact GitHub commit + workflow run. Users
-# can verify chain-of-custody via `npm view @roamzy/mcp-server provenance`.
+# Publishing is authenticated by npm Trusted Publishing (OIDC), configured on
+# the package at npmjs.com against this repository and this filename. GitHub
+# mints a short-lived identity token per run; npm verifies it and accepts the
+# publish. There is no long-lived credential anywhere in this pipeline — nothing
+# to leak, rotate, or steal. The `NPM_TOKEN` secret this workflow used until
+# 2026-08-06 is gone, and the package is set to refuse token publishes outright.
+#
+# Why this changed: the security audit of 2026-08-06 named long-lived tokens as
+# one of the conditions that turn a prompt injection into a supply-chain
+# compromise. This package has ~491 weekly installs; a stolen publishing token
+# would have reached every one of them, with no model in the loop to object.
+# Rotating the token addressed the symptom. Removing it addresses the class.
+#
+# Provenance is automatic under Trusted Publishing — the published package still
+# carries a signed link back to this exact commit and run, verifiable with
+# `npm view @roamzy/mcp-server provenance`. The explicit `--provenance` flag is
+# therefore no longer passed; OIDC implies it.
 #
 # To use:
 #   git tag v1.5.3
@@ -53,6 +62,13 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
+
+      - name: Upgrade npm to a version that can publish over OIDC
+        # Node 20 ships npm 10.x. Trusted Publishing landed in npm 11.5.1, and
+        # an older client simply falls back to looking for a token that no
+        # longer exists — the failure reads as an auth error, not a version
+        # one, so pin the requirement here rather than debugging it later.
+        run: npm install -g npm@latest && npm --version
 
       - name: Install dependencies (strict, from lockfile)
         # `npm ci` is the strict, reproducible variant of `npm install`. It:
@@ -101,10 +117,11 @@ jobs:
         # them in Dependabot PRs without blocking releases).
         run: npm audit --audit-level=high --omit=dev
 
-      - name: Publish to npm with provenance
-        run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm (OIDC, no token)
+        # No `env:` block by design. `id-token: write` above is what authenticates
+        # this step; adding NODE_AUTH_TOKEN back would reintroduce the credential
+        # this change exists to delete.
+        run: npm publish --access public
 
       - name: Create draft GitHub release
         uses: softprops/action-gh-release@v3
