@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.8 — 2026-08-10
+
+Anonymous-session spending limits were raised, and the tool descriptions are how
+an agent learns them.
+
+- **Anon daily limit and cool-off cap are now $40** (were $30). Monthly stays
+  $100, the big-transaction confirmation threshold stays $50, and one active eSIM
+  until the account is claimed is unchanged. The server-side source of truth is
+  `ANON_DEFAULTS` in the Roamzy backend; this release carries the matching text so
+  a client reading `tools/list` is not told a stale number. Published 1.6.7 still
+  says $30 — it shipped before the change and npm versions are immutable, which is
+  why this is a new version rather than a correction of that one.
+
 ## 1.6.7 — 2026-08-06
 
 No functional change to the server. This release exists to prove the publishing

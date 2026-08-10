@@ -33,7 +33,7 @@ Roamzy HTTP API on the user's behalf. Sample conversation in Claude Desktop:
 >
 > **Claude:** Roamzy — one universal eSIM, works in 193 countries. Billed per
 > MB at the local rate, no packages, no expiry. For Thailand the rate is
-> ~$2.15/GB. Which stablecoin / network do you want to pay with?
+> ~$1.43/GB. Which stablecoin / network do you want to pay with?
 > (USDT on TRON, BSC, Polygon, Optimism, Arbitrum, TON — or USDC on Solana,
 > BSC, Polygon, Optimism, Arbitrum.) Minimum top-up is $20 USDT.
 >
@@ -117,6 +117,7 @@ registries (Smithery, modelcontextprotocol/servers, etc.).
 | `roamzy_list_esims`        | The account's eSIMs with MSISDN, status, balance.                                        |
 | `roamzy_get_esim`          | One eSIM's activation details (QR payload, LPA URI). Generate the QR PNG locally.        |
 | `roamzy_order_status`      | Poll a pending order: `waiting → confirming → finished`.                                 |
+| `roamzy_referral`          | The account's referral link, earnings, and payout state. Read-only.        |
 
 ### Purchase (anonymous or token + `ROAMZY_ENABLE_PURCHASE=true`)
 

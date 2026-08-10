@@ -16,9 +16,9 @@ You: I'm going to Thailand for a week, buy me an eSIM.
 
 Claude: [calls roamzy_status — OK, purchases not paused]
 
-Claude: Roamzy is one universal eSIM that works in 192 countries.
+Claude: Roamzy is one universal eSIM that works in 193 countries.
         You'll be billed per actual MB used at the local rate — no
-        packages, no expiry. For Thailand the rate is ~$2.15/GB.
+        packages, no expiry. For Thailand the rate is ~$1.43/GB.
         Which stablecoin / network do you want to pay with?
 
 You: USDC on Solana, $20.
@@ -53,7 +53,7 @@ Claude: Confirmed and activated. Here's your activation QR — open phone
 
         Your eSIM number: 2040XXXXXX
         Balance: $20 USDT
-        Works in all 192 countries — top up any time, balance never
+        Works in all 193 countries — top up any time, balance never
         expires.
 
         ❗ Don't forget to save your claim_url above.

@@ -96,6 +96,26 @@ jobs:
         # still agree before anything ships.
         run: npm run check:install-config
 
+      - name: Tag must match the version being published
+        # The tag IS the trigger, and nothing else ties it to package.json. A tag
+        # cut before the version bump was committed would build the PREVIOUS tree
+        # and hand npm a version it already has — E403, mid-release. Cheaper to
+        # refuse here than to diagnose it from a red run.
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+          SRV=$(node -p "require('./server.json').version")
+          SRVPKG=$(node -p "require('./server.json').packages[0].version")
+          echo "tag=$TAG package.json=$PKG server.json=$SRV/$SRVPKG"
+          for V in "$PKG" "$SRV" "$SRVPKG"; do
+            if [ "$V" != "$TAG" ]; then
+              echo "✗ version mismatch: tag says $TAG, a manifest says $V"
+              exit 1
+            fi
+          done
+          echo "✓ tag and all manifests agree on $TAG"
+
       - name: Build
         run: npm run build
 
@@ -109,8 +129,8 @@ jobs:
             | timeout 5 node dist/index.js)
           echo "$OUTPUT" | grep -q '"name":"roamzy"' && echo "✓ MCP handshake OK"
           TOOL_COUNT=$(echo "$OUTPUT" | python3 -c "import sys,json; ls=[json.loads(l) for l in sys.stdin if l.strip()]; tl=[d for d in ls if d.get('id')==2][0]; print(len(tl['result']['tools']))")
-          if [ "$TOOL_COUNT" -lt 11 ]; then
-            echo "✗ Expected at least 11 tools, got $TOOL_COUNT"
+          if [ "$TOOL_COUNT" -lt 12 ]; then
+            echo "✗ Expected at least 12 tools, got $TOOL_COUNT"
             exit 1
           fi
           echo "✓ tools/list returned $TOOL_COUNT tools"
