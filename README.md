@@ -185,8 +185,8 @@ pnpm install
 pnpm build
 ```
 
-Output: a single-file ESM bundle at `dist/index.js` (~520 KB,
-self-contained, executable via Node 20+).
+Output: a single-file ESM bundle at `dist/index.js` (self-contained,
+executable via Node 20+).
 
 To produce a tarball for distribution:
 

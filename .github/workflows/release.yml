@@ -1,14 +1,17 @@
 # Auto-release workflow for @roamzy/mcp-server.
 #
 # Trigger: a push of a git tag matching `v*` (e.g. `git tag v1.5.3 && git push --tags`).
-# Steps:
-#   1. Check out the source at the tagged commit.
-#   2. Install Node 20.x.
-#   3. `pnpm install` (frozen lockfile — fails if package-lock drifts).
-#   4. `pnpm run build` (runs esbuild to produce dist/index.js).
-#   5. Sanity-test the bundle (npx-style invocation, smoke-test MCP handshake).
-#   6. `npm publish --access public` to the npm registry, authenticated by OIDC.
-#   7. Create a draft GitHub release (operator manually publishes once happy).
+# Steps (the job below is the authority; this list is a reading aid):
+#   1. Check out the tagged commit, install Node 20, `npm ci` from the lockfile.
+#   2. Typecheck, assert the README install snippet matches .mcp.json.
+#   3. Refuse the release if the tag disagrees with package.json, server.json,
+#      or the ROAMZY_MCP_VERSION constant in src/mcp-core.ts.
+#   4. Build (esbuild → dist/index.js), smoke-test the bundle: MCP handshake,
+#      all 12 tools, and the spending-limits sentence served to agents must
+#      match the source it was vendored from.
+#   5. `npm audit` (high+ blocks), then `npm publish --access public` over OIDC
+#      Trusted Publishing — no token exists to leak or rotate.
+#   6. Create a draft GitHub release (operator publishes manually once happy).
 #
 # Required repo secrets: NONE.
 #
@@ -107,8 +110,9 @@ jobs:
           PKG=$(node -p "require('./package.json').version")
           SRV=$(node -p "require('./server.json').version")
           SRVPKG=$(node -p "require('./server.json').packages[0].version")
-          echo "tag=$TAG package.json=$PKG server.json=$SRV/$SRVPKG"
-          for V in "$PKG" "$SRV" "$SRVPKG"; do
+          CORE=$(grep -oE "ROAMZY_MCP_VERSION = '[0-9.]+'" src/mcp-core.ts | grep -oE '[0-9.]+')
+          echo "tag=$TAG package.json=$PKG server.json=$SRV/$SRVPKG mcp-core=$CORE"
+          for V in "$PKG" "$SRV" "$SRVPKG" "$CORE"; do
             if [ "$V" != "$TAG" ]; then
               echo "✗ version mismatch: tag says $TAG, a manifest says $V"
               exit 1
@@ -134,6 +138,16 @@ jobs:
             exit 1
           fi
           echo "✓ tools/list returned $TOOL_COUNT tools"
+          # The limits sentence agents actually receive must be the one the
+          # vendored source carries — a stale dist/ or missed sync-core would
+          # otherwise ship silently (1.6.7 shipped $30 exactly this way).
+          LIMITS_SRC=$(grep -oE 'anon \$[0-9]+ daily / \$[0-9]+ monthly / \$[0-9]+ cool-off / \$[0-9]+ big-txn' src/mcp-core.ts | head -1)
+          if [ -z "$LIMITS_SRC" ]; then echo "✗ limits sentence not found in src/mcp-core.ts"; exit 1; fi
+          if ! echo "$OUTPUT" | grep -qF "$LIMITS_SRC"; then
+            echo "✗ tools/list does not carry the source limits sentence: $LIMITS_SRC"
+            exit 1
+          fi
+          echo "✓ limits sentence matches source: $LIMITS_SRC"
 
       - name: Security audit (block on high+ severity)
         # `npm audit` against the lockfile. Blocks publish only on HIGH or

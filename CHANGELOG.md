@@ -1,5 +1,10 @@
 # Changelog
 
+All notable changes to `@roamzy/mcp-server` are recorded here.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## 1.6.8 — 2026-08-10
 
 Anonymous-session spending limits were raised, and the tool descriptions are how
@@ -12,6 +17,19 @@ an agent learns them.
   a client reading `tools/list` is not told a stale number. Published 1.6.7 still
   says $30 — it shipped before the change and npm versions are immutable, which is
   why this is a new version rather than a correction of that one.
+
+Also in this release (recorded post-publish — the shipped tarball itself is
+immutable):
+
+- README gained the 12th tool row (`roamzy_referral` was missing) and its
+  sample Thailand rate was re-derived from the 2026-08-01 tariff ($1.43/GB;
+  the old $2.15 was Thailand's own pre-repricing rate, not a country mix-up).
+- The release workflow now refuses a tag that disagrees with `package.json`
+  or either `server.json` version field, and its smoke test requires all 12
+  tools (the old ≥11 threshold would have passed a build that lost one).
+- `token-rotation-reminder.yml` was deleted: publishing moved to OIDC Trusted
+  Publishing on 2026-08-06 and the reminder would have walked the operator
+  through recreating the long-lived npm token that change removed.
 
 ## 1.6.7 — 2026-08-06
 
@@ -108,11 +126,6 @@ anonymous by default.
 
 No tool, schema or behaviour changes: still 12 tools, 193 countries, anonymous
 by default.
-
-All notable changes to `@roamzy/mcp-server` are recorded here.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.6.3] — 2026-06-21
 

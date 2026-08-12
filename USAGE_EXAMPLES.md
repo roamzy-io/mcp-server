@@ -71,12 +71,12 @@ You: How expensive is data in Japan and Spain on Roamzy?
 Claude: [calls roamzy_country_detail(country_slug="esim-japan")
          and roamzy_country_detail(country_slug="esim-spain")]
 
-Claude: - Japan: ~$0.0033 per MB ≈ $3.38 per GB
-        - Spain: ~$0.0014 per MB ≈ $1.43 per GB
+Claude: - Japan: ~$0.0021 per MB ≈ $2.15 per GB
+        - Spain: ~$0.0006 per MB ≈ $0.61 per GB
 
         These are the per-MB rates — you only pay for actual data used,
         no pre-purchased bundles. A typical 7-day trip with light use
-        (~1 GB) would be ~$4.50 in Japan and ~$1.43 in Spain.
+        (~1 GB) would be ~$2.15 in Japan and ~$0.61 in Spain.
 ```
 
 ## Example 3: Checking balance on an existing eSIM
