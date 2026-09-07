@@ -5,6 +5,11 @@ All notable changes to `@roamzy/mcp-server` are recorded here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.9 — 2026-09-07
+
+- `roamzy_create_order` and `roamzy_me`: tell the agent about the free first eSIM — a verified account can get its first eSIM on the dashboard with a small real-data credit and no payment, one per person. Scope is explicit: not on the order path, not for anonymous accounts (they qualify after claiming); "try before paying" requests go to the dashboard, not to an order.
+- `S_CREATE_ORDER` output schema: `confirmation` block for large-transaction approvals and `pay_url` no longer required (a call can legitimately return `awaiting_human_confirmation` with no order). Landed in the canonical source on 2026-08-20; this is its first npm release.
+
 ## 1.6.8 — 2026-08-10
 
 Anonymous-session spending limits were raised, and the tool descriptions are how
